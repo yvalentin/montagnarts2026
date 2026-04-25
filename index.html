@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Montagnarts 2026 — Programme</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ec;
+    --surface: #ffffff;
+    --surface2: #f9f7f3;
+    --border: #e0dbd0;
+    --text: #1a1714;
+    --text2: #6b6560;
+    --text3: #9e9890;
+    --green: #2d6a4f;
+    --green-light: #d8f3dc;
+    --purple: #4a3f7a;
+    --purple-light: #ede8f8;
+    --coral: #b5451b;
+    --coral-light: #fde8df;
+    --amber: #7d4e1f;
+    --amber-light: #fef0de;
+    --teal: #1b5e6e;
+    --teal-light: #d8f0f5;
+    --accent: #c94f2c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--text);
+    color: white;
+    padding: 40px 24px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.05);
+  }
+  .header-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+  .header-eyebrow {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(255,255,255,.5); margin-bottom: 10px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  .header-title em { color: #e8a87c; font-style: normal; }
+  .header-sub {
+    font-size: 14px; color: rgba(255,255,255,.6);
+    margin-bottom: 24px; font-weight: 300;
+  }
+  .header-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    font-size: 11px; padding: 4px 12px; border-radius: 20px;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.75);
+    border: 1px solid rgba(255,255,255,.15);
+  }
+
+  /* FILTERS */
+  .filters-wrap { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .filters { max-width: 760px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .filters span { font-size: 12px; color: var(--text3); margin-right: 4px; }
+  .f-btn {
+    font-size: 12px; font-family: 'DM Sans', sans-serif;
+    padding: 6px 16px; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: transparent; color: var(--text2);
+    cursor: pointer; transition: all .18s; font-weight: 500;
+  }
+  .f-btn:hover { border-color: var(--text2); color: var(--text); }
+  .f-btn.active { background: var(--text); color: white; border-color: var(--text); }
+
+  /* TYPE FILTERS */
+  .type-filters { max-width: 760px; margin: 0 auto; padding: 8px 24px 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .t-btn {
+    font-size: 11px; font-family: 'DM Sans', sans-serif;
+    padding: 3px 10px; border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--text3);
+    cursor: pointer; transition: all .15s;
+  }
+  .t-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  /* MAIN */
+  main { max-width: 760px; margin: 0 auto; padding: 24px 24px 48px; }
+
+  /* DAY GROUP */
+  .day-group { margin-bottom: 32px; }
+  .day-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--text); margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--text);
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .day-header .day-num {
+    font-size: 13px; font-weight: 400; color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); transform: translateY(-1px); }
+  .card.hidden { display: none; }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-title { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .card-time { font-size: 11px; color: var(--text3); white-space: nowrap; padding-top: 2px; }
+
+  .card-meta { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+  .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
+  .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500;
+    letter-spacing: .03em;
+  }
+  .tag-theatre { background: var(--purple-light); color: var(--purple); }
+  .tag-danse   { background: var(--green-light);  color: var(--green); }
+  .tag-cirque  { background: var(--coral-light);  color: var(--coral); }
+  .tag-musique { background: var(--amber-light);  color: var(--amber); }
+  .tag-conte   { background: #fce4ec; color: #7b1e3a; }
+  .tag-rue     { background: var(--teal-light);   color: var(--teal); }
+  .tag-age     { background: #f3f0ea; color: #5a5450; }
+  .tag-free    { background: #d8f3dc; color: var(--green); }
+
+  .card-desc {
+    font-size: 13px; color: var(--text2); margin-top: 9px;
+    line-height: 1.6; font-weight: 300;
+  }
+
+  .card-links { display: flex; gap: 7px; margin-top: 11px; flex-wrap: wrap; }
+  .lnk {
+    font-size: 11px; font-family: 'DM Sans', sans-serif;
+    padding: 4px 11px; border-radius: 6px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+    border: 1px solid var(--border); color: var(--text2);
+    background: var(--surface2); transition: all .15s; font-weight: 500;
+  }
+  .lnk:hover { border-color: var(--text); color: var(--text); background: white; }
+  .lnk.main { background: var(--text); color: white; border-color: var(--text); }
+  .lnk.main:hover { background: #333; }
+  .lnk.yt { background: #fff5f5; color: #b91c1c; border-color: #fca5a5; }
+  .lnk.yt:hover { background: #fee2e2; }
+
+  /* INFOS PRATIQUES */
+  .infos {
+    background: var(--text); color: white;
+    border-radius: 14px; padding: 24px 24px;
+    margin-top: 8px;
+  }
+  .infos h2 { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 16px; }
+  .infos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .info-block h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.5); margin-bottom: 5px; }
+  .info-block p { font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.55; font-weight: 300; }
+  .info-block a { color: #e8a87c; text-decoration: none; }
+  .info-block a:hover { text-decoration: underline; }
+
+  /* EMPTY STATE */
+  .empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; display: none; }
+
+  @media (max-width: 500px) {
+    .infos-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 28px; }
+    .filters { padding: 10px 16px; }
+    main { padding: 16px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Festival des arts vivants — Isère</div>
+    <h1 class="header-title">Les <em>Montagnarts</em> 2026</h1>
+    <p class="header-sub">22, 23 & 24 mai · Valbonnais · Parc National des Écrins</p>
+    <div class="header-pills">
+      <span class="pill">🎭 Théâtre</span>
+      <span class="pill">🎪 Cirque</span>
+      <span class="pill">💃 Danse</span>
+      <span class="pill">🎵 Concerts</span>
+      <span class="pill">🌲 Plein air</span>
+    </div>
+  </div>
+</header>
+
+<div class="filters-wrap">
+  <div class="filters">
+    <span>Jour :</span>
+    <button class="f-btn active" onclick="filterDay('all', this)">Tous</button>
+    <button class="f-btn" onclick="filterDay('ven', this)">Vendredi 22</button>
+    <button class="f-btn" onclick="filterDay('sam', this)">Samedi 23</button>
+    <button class="f-btn" onclick="filterDay('dim', this)">Dimanche 24</button>
+  </div>
+  <div class="type-filters">
+    <button class="t-btn active" onclick="filterType('all', this)">Tous types</button>
+    <button class="t-btn" onclick="filterType('theatre', this)">🎭 Théâtre</button>
+    <button class="t-btn" onclick="filterType('cirque', this)">🎪 Cirque</button>
+    <button class="t-btn" onclick="filterType('danse', this)">💃 Danse</button>
+    <button class="t-btn" onclick="filterType('musique', this)">🎵 Musique</button>
+    <button class="t-btn" onclick="filterType('conte', this)">📖 Conte</button>
+    <button class="t-btn" onclick="filterType('rue', this)">🌳 Rue</button>
+    <button class="t-btn" onclick="filterType('free', this)">✨ Gratuit</button>
+  </div>
+</div>
+
+<main>
+  <div class="empty" id="empty-msg">Aucun spectacle pour cette sélection.</div>
+
+  <!-- VENDREDI -->
+  <div class="day-group" id="grp-ven">
+    <div class="day-header">Vendredi 22 mai <span class="day-num">Ouverture du festival</span></div>
+
+    <div class="card" data-days="ven" data-types="free">
+      <div class="card-top">
+        <div class="card-title">🎉 Ouverture du festival</div>
+        <div class="card-time">18h45</div>
+      </div>
+      <div class="card-meta">Inauguration officielle — Surprise / Apéritif</div>
+      <div class="tags"><span class="tag tag-free">✨ Gratuit</span></div>
+    </div>
+
+    <div class="card" data-days="ven sam" data-types="theatre">
+      <div class="card-top">
+        <div class="card-title">Argent, pudeurs et décadences</div>
+        <div class="card-time">20h30</div>
+      </div>
+      <div class="card-meta">Collectif AIAA · Ven 22 & Sam 23 · ~2h15</div>
+      <div class="tags">
+        <span class="tag tag-theatre">Théâtre</span>
+        <span class="tag tag-age">Dès 12 ans</span>
+      </div>
+      <div class="card-desc">Comédie financière fantasmagorique : deux comédiennes emmènent le spectateur dans un tourbillon d'arrivisme et de folles envolées monétaires. Qu'est-ce que l'argent ? Virulent, surréaliste, irrésistible.</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://www.laiaa.com/argent-pudeurs-dcadences" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk" href="https://artsdelarue.fr/spectacles/362-argent-pudeurs-decadences" target="_blank">📄 Fiche</a>
+        <a class="lnk yt" href="https://www.facebook.com/collectif.aiaa/videos/argent-pudeurs-et-decadences/1293709983978127/" target="_blank">▶ Vidéo</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="ven sam" data-types="musique theatre">
+      <div class="card-top">
+        <div class="card-title">C'est moi ou il fait un peu chaud ?</div>
+        <div class="card-time">22h00</div>
+      </div>
+      <div class="card-meta">Hélène Piris · Ven 22 & Sam 23 · Adulte · 1h</div>
+      <div class="tags">
+        <span class="tag tag-musique">Chanson à texte</span>
+        <span class="tag tag-theatre">Humour</span>
+        <span class="tag tag-age">Adulte</span>
+      </div>
+      <div class="card-desc">Autrice-compositrice-violoncelliste, Hélène Piris dépeint les absurdités du monde avec humour piquant et faussement naïf. Un spectacle-manifeste tendre et déjanté. Prix du public Festival J.Brel 2024.</div>
+      <div class="card-links">
+        <a class="lnk main" href="http://www.helenepiris.com/" target="_blank">🌐 Site officiel</a>
+        <a class="lnk" href="https://www.festivaloffavignon.com/spectacles/5805-c-est-moi-ou-il-fait-un-peu-chaud-helene-piris" target="_blank">📄 Avignon Off</a>
+        <a class="lnk yt" href="https://bfan.link/c-est-moi-ou-il-fait-un-peu-chaud-1" target="_blank">🎧 Album</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAMEDI -->
+  <div class="day-group" id="grp-sam">
+    <div class="day-header">Samedi 23 mai <span class="day-num">Grande journée</span></div>
+
+    <div class="card" data-days="sam dim" data-types="danse">
+      <div class="card-top">
+        <div class="card-title">Panier Piano</div>
+        <div class="card-time">9h45 & 11h30</div>
+      </div>
+      <div class="card-meta">Compagnie Sur le Tas · Sam 23 & Dim 24 · Dès 3 ans · 35 min</div>
+      <div class="tags">
+        <span class="tag tag-danse">Danse jeune public</span>
+        <span class="tag tag-age">Dès 3 ans</span>
+      </div>
+      <div class="card-desc">Deux danseuses et une technicienne transforment un simple panier en masque, cocon, montgolfière, bottes de 7 lieues… Corps et paniers s'imbriquent pour créer des personnages loufoques, sur une bande-son originale au piano. Création 2024 de la compagnie grenobloise.</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://surletas.fr/" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk yt" href="https://www.youtube.com/watch?v=6peusXPTQhE" target="_blank">▶ Vidéo</a>
+        <a class="lnk" href="https://www.lesquinconces.com/au-theatre/panier-piano/" target="_blank">📄 Présentation</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="cirque musique">
+      <div class="card-top">
+        <div class="card-title">Z-D Zone à la dérive</div>
+        <div class="card-time">10h30 & 14h15</div>
+      </div>
+      <div class="card-meta">Compagnie Solfaïric · Sam 23 & Dim 24 · Dès 4 ans · 55 min</div>
+      <div class="tags">
+        <span class="tag tag-cirque">Cirque</span>
+        <span class="tag tag-musique">Musique</span>
+        <span class="tag tag-age">Dès 4 ans</span>
+      </div>
+      <div class="card-desc">Trois colocataires reçoivent colis sur colis : géante géode, roue Cyr, balles et percussions. Entre taquineries comiques et voltige acrobatique, le spectacle questionne nos habitudes de surconsommation. Attention à la marée de déchets !</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://solfasirc.org/fr/spectacles-z-d/" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk" href="https://www.savoie.fr/web/sw_103141/Culture/ZDZonealaderive" target="_blank">📄 Fiche technique</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam" data-types="theatre">
+      <div class="card-top">
+        <div class="card-title">Faune — Sous les Arbres</div>
+        <div class="card-time">13h00</div>
+      </div>
+      <div class="card-meta">Compagnie Libertivore · Sam 23 · Dès 8 ans · 40 min</div>
+      <div class="tags">
+        <span class="tag tag-cirque">Cirque</span>
+        <span class="tag tag-danse">Danse</span>
+        <span class="tag tag-age">Dès 8 ans</span>
+      </div>
+      <div class="card-desc">Trois circasiennes explorent la figure du cerf : ses bois deviennent des agrès de cirque uniques. Une création 2025 sur notre rapport au sauvage et à l'animalité — idéale en pleine nature.</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://www.libertivore.fr/faune" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk" href="https://www.artcena.fr/projets-de-creation/faune" target="_blank">📄 Artcena</a>
+        <a class="lnk" href="https://www.lepluspetitcirquedumonde.fr/home-page/focus-actualites/zoom-sur-la-compagnie-libertivore" target="_blank">📝 Interview</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="theatre">
+      <div class="card-top">
+        <div class="card-title">Frou-Frou</div>
+        <div class="card-time">11h00 & 14h15</div>
+      </div>
+      <div class="card-meta">La Belle Trame · Sam 23 & Dim 24 · Dès 6 ans</div>
+      <div class="tags">
+        <span class="tag tag-theatre">Théâtre couture</span>
+        <span class="tag tag-age">Dès 6 ans</span>
+      </div>
+      <div class="card-desc">La couture à la force du métier ! Deux héroïnes ont une mission : célébrer le raccommodage et le costume féminin au fil de leurs aventures quotidiennes.</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://labelletrame.fr/" target="_blank">🌐 La Belle Trame</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="conte theatre">
+      <div class="card-top">
+        <div class="card-title">Trois Contes et quelques</div>
+        <div class="card-time">12h45 / 12h00</div>
+      </div>
+      <div class="card-meta">Groupe Merci · Sam 23 & Dim 24 · Dès 12 ans · 1h30</div>
+      <div class="tags">
+        <span class="tag tag-conte">Conte</span>
+        <span class="tag tag-theatre">Théâtre</span>
+        <span class="tag tag-age">Dès 12 ans</span>
+      </div>
+      <div class="card-desc">Emmanuel Adely réécrit Perrault à l'ère #MeToo : Peau d'Huile, Lou, Serial Lover… Les contes classiques revisités avec humour caustique et mise en scène inventive. Coup de cœur du Festival Off Avignon 2024.</div>
+      <div class="card-links">
+        <a class="lnk main" href="http://www.groupemerci.com/objets-nocturnes/trois-contes-et-quelques" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk" href="https://lamanufacture.org/programmation/trois-contes-et-quelques/" target="_blank">📄 La Manufacture</a>
+        <a class="lnk" href="https://lestroiscoups.fr/groupe-merci-trois-contes-et-quelques-musee-angladon-manufacture-festival-off-avignon-2024/" target="_blank">📝 Critique</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam" data-types="theatre">
+      <div class="card-top">
+        <div class="card-title">Le tour du monde en 80 jours</div>
+        <div class="card-time">15h00</div>
+      </div>
+      <div class="card-meta">Chap'Romet · Sam 23 · Dès 8 ans</div>
+      <div class="tags">
+        <span class="tag tag-theatre">Marionnettes</span>
+        <span class="tag tag-age">Dès 8 ans</span>
+      </div>
+      <div class="card-desc">Adaptation du roman de Jules Verne en masques et marionnettes : Philéas Fogg et Passepartout partent pour un tour du monde semé d'embûches, avec voyage à dos d'éléphant, vol en montgolfière et folle poursuite en train.</div>
+      <div class="card-links">
+        <a class="lnk yt" href="https://www.youtube.com/watch?v=o2fzBtuy58w" target="_blank">▶ Extrait vidéo</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="cirque">
+      <div class="card-top">
+        <div class="card-title">MadMe / Bardonne</div>
+        <div class="card-time">15h45 / 15h15</div>
+      </div>
+      <div class="card-meta">Compagnie 3 secondes · Sam 23 & Dim 24</div>
+      <div class="tags">
+        <span class="tag tag-cirque">Cirque acrobatique</span>
+        <span class="tag tag-theatre">Scènes courtes</span>
+      </div>
+      <div class="card-desc">Brigitte, artiste lunatique, et Bertrand, son technicien, son tout. Rencontre intime et drolatique de deux êtres qui s'aiment, se ratent et recommencent. Acrobaties, complicité, émotions.</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://www.compagnie3secondes.com/" target="_blank">🌐 Compagnie 3 secondes</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="musique rue">
+      <div class="card-top">
+        <div class="card-title">Ça va valser</div>
+        <div class="card-time">16h30 & 19h30</div>
+      </div>
+      <div class="card-meta">Les Rustines de l'Ange · Sam 23 & Dim 24 · Tout public · Rue</div>
+      <div class="tags">
+        <span class="tag tag-musique">6 Accordéons</span>
+        <span class="tag tag-rue">Arts de la rue</span>
+      </div>
+      <div class="card-desc">Six accordéons dans la rue pour ceux qui regardent, écoutent ou dansent. De Led Zeppelin à Marc Perrone en passant par Madness et Bourvil — Ça va valser enflamme le bitume. Joué près de 200 fois en 5 ans !</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://lesrustinesdelange.fr/ca-va-valser/" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk" href="https://www.picnicproduction.com/lesrustinesdelange-cavavalser" target="_blank">📄 Fiche</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="cirque">
+      <div class="card-top">
+        <div class="card-title">Un dîner pour 1</div>
+        <div class="card-time">17h45 / 21h00</div>
+      </div>
+      <div class="card-meta">Le P'tit Cirk · Sam 23 & Dim 24 · Dès 6 ans · 25 min</div>
+      <div class="tags">
+        <span class="tag tag-cirque">Cirque</span>
+        <span class="tag tag-theatre">Humour</span>
+        <span class="tag tag-age">Dès 6 ans</span>
+      </div>
+      <div class="card-desc">Miss Sophie fête son anniversaire — son majordome James joue les 4 amis disparus et boit leur verre à chaque plat. Une ivresse joyeuse et hilarante. Hommage au sketch anglais de 1934 par des vétérans du cirque (Archaos, Cirque du Soleil, Cirque Plume).</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://www.leptitcirk.fr/spectacles/un-diner-pour-un" target="_blank">🌐 Site compagnie</a>
+        <a class="lnk" href="https://www.ay-roop.com/le-ptit-cirk/" target="_blank">📄 Présentation</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam dim" data-types="danse">
+      <div class="card-top">
+        <div class="card-title">Danse en 3D — Sous les Arbres</div>
+        <div class="card-time">18h15 / 12h00</div>
+      </div>
+      <div class="card-meta">Clara Bard / NORDC · Sam 23 & Dim 24</div>
+      <div class="tags">
+        <span class="tag tag-danse">Danse contemporaine</span>
+      </div>
+      <div class="card-desc">Les Petits Pas dans les Grands : Clara Bard et NORDC invitent à découvrir 3 compagnies de danse. Exploration chorégraphique en espace extérieur.</div>
+      <div class="card-links">
+        <a class="lnk main" href="https://nordc.com/" target="_blank">🌐 NORDC</a>
+      </div>
+    </div>
+
+    <div class="card" data-days="sam" data-types="musique free">
+      <div class="card-top">
+        <div class="card-title">Afro Collectif</div>
+        <div class="card-time">23h15</div>
+      </div>
+      <div class="card-meta">Sam 23 · Concert · Gratuit</div>
+      <div class="tags">
+        <span class="tag tag-musique">Concert</span>
+        <span class="tag tag-free">✨ Gratuit</span>
+      </div>
+      <div class="card-desc">La grande bande d'Afrosyak réunit en collectif pour les révoltes et la cohésion. Une musique qui questionne la musique qui questionne pour bouger, pour crier et chanter ensemble.</div>
+    </div>
+  </div>
+
+  <!-- DIMANCHE -->
+  <div class="day-group" id="grp-dim">
+    <div class="day-header">Dimanche 24 mai <span class="day-num">Clôture du festival</span></div>
+
+    <div class="card" data-days="dim" data-types="theatre">
+      <div class="card-top">
+        <div class="card-title">La Motivation</div>
+        <div class="card-time">18h15</div>
+      </div>
+      <div class="card-meta">Dim 24 · Dès 10 ans · Représentation unique</div>
+      <div class="tags">
+        <span class="tag tag-theatre">Numérique / Art vivant</span>
+        <span class="tag tag-age">Dès 10 ans</span>
+      </div>
+      <div class="card-desc">Alice incarne la mascotte de son entreprise — une bibliothèque vivante des motivations modernes. Questionnement sur la valeur du travail à l'ère numérique, entre avatar et humanité.</div>
+    </div>
+
+    <div class="card" data-days="dim" data-types="cirque rue">
+      <div class="card-top">
+        <div class="card-title">Banc de Sardine</div>
+        <div class="card-time">18h15</div>
+      </div>
+      <div class="card-meta">Dim 24 · Sous les arbres · Tout public</div>
+      <div class="tags">
+        <span class="tag tag-cirque">Clown</span>
+        <span class="tag tag-rue">Rue</span>
+      </div>
+      <div class="card-desc">Deux bandes de clowns et un spectacle pour voir la vie comme un enfant — avec tout ce qu'un être humain a besoin des autres pour exister.</div>
+    </div>
+
+    <div class="card" data-days="dim" data-types="musique free rue">
+      <div class="card-top">
+        <div class="card-title">Batukelbré</div>
+        <div class="card-time">20h15</div>
+      </div>
+      <div class="card-meta">Dim 24 · Place du Buv'Art · Gratuit</div>
+      <div class="tags">
+        <span class="tag tag-musique">Percussions afro-brésiliennes</span>
+        <span class="tag tag-free">✨ Gratuit</span>
+        <span class="tag tag-rue">Rue</span>
+      </div>
+      <div class="card-desc">Orchestre de percussions afro-brésiliennes. Pour danser et vibrer ensemble autour du Buv'Art en clôture de festival.</div>
+    </div>
+
+    <div class="card" data-days="dim" data-types="musique free">
+      <div class="card-top">
+        <div class="card-title">Faut q'a guinguette</div>
+        <div class="card-time">21h30</div>
+      </div>
+      <div class="card-meta">Dim 24 · Concert · Gratuit</div>
+      <div class="tags">
+        <span class="tag tag-musique">Chanson française festive</span>
+        <span class="tag tag-free">✨ Gratuit</span>
+      </div>
+      <div class="card-desc">Chanson française festive et militante aux influences rock — une énergie débordante pour finir le festival en beauté.</div>
+    </div>
+
+    <div class="card" data-days="dim" data-types="musique free">
+      <div class="card-top">
+        <div class="card-title">DJ Sals'Hifi</div>
+        <div class="card-time">23h15</div>
+      </div>
+      <div class="card-meta">Dim 24 · Place du Buv'Art · Gratuit</div>
+      <div class="tags">
+        <span class="tag tag-musique">DJ set</span>
+        <span class="tag tag-free">✨ Gratuit</span>
+      </div>
+      <div class="card-desc">Road trip sonore à travers le temps — dancefloor mémorable pour clore le festival en musique jusqu'au bout de la nuit.</div>
+    </div>
+  </div>
+
+  <!-- INFOS PRATIQUES -->
+  <div class="infos">
+    <h2>Infos pratiques</h2>
+    <div class="infos-grid">
+      <div class="info-block">
+        <h4>Billetterie</h4>
+        <p><a href="https://www.lesmontagnarts.org">www.lesmontagnarts.org</a><br>Du 30 avril au 21 mai à 18h<br>Places non payées remises en vente 30 min avant</p>
+      </div>
+      <div class="info-block">
+        <h4>Tarifs</h4>
+        <p>Enfant (–12 ans) : 9 €<br>Réduit : 12 € · Normal : 14 €<br>Forfait bouquet disponible</p>
+      </div>
+      <div class="info-block">
+        <h4>Accès</h4>
+        <p>GPS : N44°53.560 – E5°54.190<br>Grenoble → 50 min · Gap → 1h<br>Parking gratuit</p>
+      </div>
+      <div class="info-block">
+        <h4>Contact</h4>
+        <p><a href="mailto:programme@lesmontagnarts.org">programme@lesmontagnarts.org</a></p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  let currentDay = 'all';
+  let currentType = 'all';
+
+  function filterDay(day, btn) {
+    currentDay = day;
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function filterType(type, btn) {
+    currentType = type;
+    document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const cards = document.querySelectorAll('.card');
+    let visible = 0;
+    cards.forEach(card => {
+      const days = card.dataset.days || '';
+      const types = card.dataset.types || '';
+      const dayOk = currentDay === 'all' || days.includes(currentDay);
+      const typeOk = currentType === 'all' || types.includes(currentType);
+      if (dayOk && typeOk) { card.classList.remove('hidden'); visible++; }
+      else card.classList.add('hidden');
+    });
+
+    // Show/hide day group headers
+    ['ven','sam','dim'].forEach(d => {
+      const grp = document.getElementById('grp-' + d);
+      if (!grp) return;
+      const anyVisible = [...grp.querySelectorAll('.card')].some(c => !c.classList.contains('hidden'));
+      grp.style.display = anyVisible ? '' : 'none';
+    });
+
+    document.getElementById('empty-msg').style.display = visible === 0 ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>
