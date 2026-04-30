@@ -25,6 +25,7 @@
     --teal: #1b5e6e;
     --teal-light: #d8f0f5;
     --accent: #c94f2c;
+    --conflict: #d9534f;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,7 +111,7 @@
   .t-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
   /* MAIN */
-  main { max-width: 760px; margin: 0 auto; padding: 24px 24px 48px; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 24px 96px; }
 
   /* DAY GROUP */
   .day-group { margin-bottom: 32px; }
@@ -139,11 +140,29 @@
   .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); transform: translateY(-1px); }
   .card.hidden { display: none; }
 
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
   .card-title { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
   .card-time { font-size: 11px; color: var(--text3); white-space: nowrap; padding-top: 2px; }
 
-  .card-meta { font-size: 12px; color: var(--text2); margin-top: 3px; }
+  /* SESSION CHIPS (replace .card-time when JS renders) */
+  .card-sessions {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    justify-content: flex-end; padding-top: 1px;
+    max-width: 100%;
+  }
+  .ses-chip {
+    font-size: 11px; font-family: 'DM Sans', sans-serif;
+    padding: 4px 10px; border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text2);
+    cursor: pointer; transition: all .12s; font-weight: 500;
+    white-space: nowrap; line-height: 1.2;
+  }
+  .ses-chip:hover { border-color: var(--text2); color: var(--text); }
+  .ses-chip.selected { background: var(--accent); color: white; border-color: var(--accent); }
+  .ses-chip.selected::before { content: '✓ '; }
+
+  .card-meta { font-size: 12px; color: var(--text2); margin-top: 6px; }
 
   .tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
   .tag {
@@ -194,11 +213,152 @@
   /* EMPTY STATE */
   .empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; display: none; }
 
+  /* PLANNING FAB */
+  .planning-fab {
+    position: fixed; bottom: 22px; right: 22px;
+    background: var(--accent); color: white;
+    border: none; border-radius: 50px;
+    padding: 13px 22px; font-size: 14px; font-weight: 500;
+    cursor: pointer; box-shadow: 0 6px 20px rgba(201,79,44,.35);
+    z-index: 200; font-family: 'DM Sans', sans-serif;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .planning-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,79,44,.45); }
+  .planning-fab .count {
+    background: white; color: var(--accent);
+    padding: 2px 9px; border-radius: 12px;
+    font-size: 12px; font-weight: 700; min-width: 22px; text-align: center;
+  }
+  .planning-fab.empty .count { display: none; }
+
+  /* PLANNING OVERLAY */
+  .planning-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 300;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s;
+  }
+  .planning-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .planning-panel {
+    background: var(--bg);
+    width: 100%; max-width: 760px; max-height: 92vh;
+    border-radius: 18px 18px 0 0;
+    padding: 22px 24px 28px;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform .28s ease-out;
+  }
+  .planning-overlay.open .planning-panel { transform: translateY(0); }
+
+  .planning-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .planning-head h2 { font-family: 'Playfair Display', serif; font-size: 22px; }
+  .planning-close {
+    background: none; border: none; cursor: pointer;
+    color: var(--text2); font-size: 22px; padding: 4px 10px;
+    line-height: 1;
+  }
+  .planning-close:hover { color: var(--text); }
+
+  .planning-actions {
+    display: flex; gap: 7px; flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .p-btn {
+    font-size: 12px; padding: 7px 14px; border-radius: 18px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text2); cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; transition: all .15s;
+  }
+  .p-btn:hover { border-color: var(--text); color: var(--text); }
+  .p-btn.danger { color: var(--conflict); border-color: #f5d0ce; }
+  .p-btn.danger:hover { background: #fde8df; }
+
+  .planning-empty {
+    text-align: center; color: var(--text3);
+    padding: 40px 20px; font-size: 13px;
+    background: var(--surface); border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+
+  .planning-day { margin-bottom: 18px; }
+  .planning-day h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px; margin-bottom: 10px;
+  }
+  .planning-conflict-warn {
+    background: #fff5f5; border: 1px solid #f5d0ce;
+    color: var(--conflict); padding: 6px 10px;
+    border-radius: 8px; font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .pi {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px;
+    margin-bottom: 7px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .pi.conflict { border-color: var(--conflict); background: #fff8f7; }
+  .pi-time {
+    font-weight: 600; color: var(--text);
+    min-width: 92px; font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  .pi-body { flex: 1; min-width: 0; }
+  .pi-title { font-size: 14px; color: var(--text); }
+  .pi-venue { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .pi-tag { font-size: 10px; color: var(--conflict); margin-top: 4px; font-weight: 600; }
+  .pi-rm {
+    background: none; border: none; cursor: pointer;
+    color: var(--text3); font-size: 18px; padding: 0 4px;
+    line-height: 1;
+  }
+  .pi-rm:hover { color: var(--conflict); }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 14mm; }
+    header, .filters-wrap, .planning-fab, main, .infos { display: none !important; }
+    .planning-overlay {
+      position: static !important;
+      background: none !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      display: block !important;
+    }
+    .planning-panel {
+      transform: none !important;
+      max-height: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      width: 100% !important;
+    }
+    .planning-actions, .planning-close { display: none !important; }
+    .pi { break-inside: avoid; box-shadow: none !important; }
+    .pi-rm { display: none !important; }
+  }
+
   @media (max-width: 500px) {
     .infos-grid { grid-template-columns: 1fr; }
     .header-title { font-size: 28px; }
     .filters { padding: 10px 16px; }
-    main { padding: 16px 16px 40px; }
+    main { padding: 16px 16px 96px; }
+    .card-top { flex-direction: column; }
+    .card-sessions { justify-content: flex-start; }
+    .planning-fab { padding: 11px 18px; font-size: 13px; bottom: 14px; right: 14px; }
+    .planning-panel { padding: 18px 16px 22px; }
+    .pi-time { min-width: 78px; font-size: 12px; }
   }
 </style>
 </head>
@@ -246,7 +406,7 @@
   <div class="day-group" id="grp-ven">
     <div class="day-header">Vendredi 22 mai <span class="day-num">Ouverture du festival</span></div>
 
-    <div class="card" data-days="ven" data-types="free">
+    <div class="card" data-show-id="ouverture" data-days="ven" data-types="free">
       <div class="card-top">
         <div class="card-title">🎉 Ouverture du festival</div>
         <div class="card-time">18h45</div>
@@ -255,7 +415,7 @@
       <div class="tags"><span class="tag tag-free">✨ Gratuit</span></div>
     </div>
 
-    <div class="card" data-days="ven sam" data-types="theatre">
+    <div class="card" data-show-id="argent" data-days="ven sam" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Argent, pudeurs et décadences</div>
         <div class="card-time">Ven 20h30 · Sam 20h00</div>
@@ -273,12 +433,12 @@
       </div>
     </div>
 
-    <div class="card" data-days="ven sam" data-types="musique theatre">
+    <div class="card" data-show-id="cestmoi" data-days="ven sam" data-types="musique theatre">
       <div class="card-top">
         <div class="card-title">C'est moi ou il fait un peu chaud ?</div>
         <div class="card-time">22h00</div>
       </div>
-      <div class="card-meta">Hélène Piris · Ven 22 & Sam 23 · Adulte · 1h</div>
+      <div class="card-meta">Hélène Piris · Ven 22 & Sam 23 · Adulte · 1h15</div>
       <div class="tags">
         <span class="tag tag-musique">Chanson à texte</span>
         <span class="tag tag-theatre">Humour</span>
@@ -297,7 +457,7 @@
   <div class="day-group" id="grp-sam">
     <div class="day-header">Samedi 23 mai <span class="day-num">Grande journée</span></div>
 
-    <div class="card" data-days="sam dim" data-types="danse">
+    <div class="card" data-show-id="panier" data-days="sam dim" data-types="danse">
       <div class="card-top">
         <div class="card-title">Panier Piano</div>
         <div class="card-time">9h45 & 11h30</div>
@@ -315,7 +475,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="cirque musique">
+    <div class="card" data-show-id="zd" data-days="sam dim" data-types="cirque musique">
       <div class="card-top">
         <div class="card-title">Z-D Zone à la dérive</div>
         <div class="card-time">Sam 11h30 & 14h15 · Dim 10h30 & 14h15</div>
@@ -333,7 +493,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="theatre">
+    <div class="card" data-show-id="obake" data-days="sam dim" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Obaké — Sous les Arbres</div>
         <div class="card-time">11h00</div>
@@ -349,12 +509,12 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam" data-types="theatre">
+    <div class="card" data-show-id="faune" data-days="sam" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Faune — Sous les Arbres</div>
         <div class="card-time">13h00</div>
       </div>
-      <div class="card-meta">Compagnie Libertivore · Sam 23 · Dès 8 ans · 40 min</div>
+      <div class="card-meta">Compagnie Libertivore · Sam 23 · Dès 8 ans · 45 min</div>
       <div class="tags">
         <span class="tag tag-cirque">Cirque</span>
         <span class="tag tag-danse">Danse</span>
@@ -368,12 +528,12 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="theatre">
+    <div class="card" data-show-id="froufrou" data-days="sam dim" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Frou-Frou</div>
         <div class="card-time">11h00 & 14h15</div>
       </div>
-      <div class="card-meta">La Belle Trame · Sam 23 & Dim 24 · Dès 6 ans</div>
+      <div class="card-meta">La Belle Trame · Sam 23 & Dim 24 · Dès 6 ans · 55 min</div>
       <div class="tags">
         <span class="tag tag-theatre">Théâtre couture</span>
         <span class="tag tag-age">Dès 6 ans</span>
@@ -384,7 +544,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="conte theatre">
+    <div class="card" data-show-id="trois" data-days="sam dim" data-types="conte theatre">
       <div class="card-top">
         <div class="card-title">Trois Contes et quelques</div>
         <div class="card-time">Sam 13h00 · Dim 12h00</div>
@@ -403,7 +563,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam" data-types="theatre">
+    <div class="card" data-show-id="tour" data-days="sam" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Le tour du monde en 80 jours</div>
         <div class="card-time">14h15</div>
@@ -419,7 +579,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="cirque">
+    <div class="card" data-show-id="madame" data-days="sam dim" data-types="cirque">
       <div class="card-top">
         <div class="card-title">MaDame</div>
         <div class="card-time">15h15</div>
@@ -436,7 +596,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="musique rue">
+    <div class="card" data-show-id="cava" data-days="sam dim" data-types="musique rue">
       <div class="card-top">
         <div class="card-title">Ça va valser</div>
         <div class="card-time">Sam 16h30 · Dim 16h30 & 19h30</div>
@@ -453,7 +613,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="cirque">
+    <div class="card" data-show-id="diner" data-days="sam dim" data-types="cirque">
       <div class="card-top">
         <div class="card-title">Un dîner pour 1</div>
         <div class="card-time">Sam 17h45 & 18h25 · Dim 17h45 & 21h00</div>
@@ -471,7 +631,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam dim" data-types="danse">
+    <div class="card" data-show-id="danse3d" data-days="sam dim" data-types="danse">
       <div class="card-top">
         <div class="card-title">Danse en 3D — Sous les Arbres</div>
         <div class="card-time">Sam 18h15 · Dim 12h45</div>
@@ -486,7 +646,7 @@
       </div>
     </div>
 
-    <div class="card" data-days="sam" data-types="musique free">
+    <div class="card" data-show-id="afro" data-days="sam" data-types="musique free">
       <div class="card-top">
         <div class="card-title">Afro Collectif</div>
         <div class="card-time">23h15</div>
@@ -496,7 +656,7 @@
         <span class="tag tag-musique">Concert</span>
         <span class="tag tag-free">✨ Gratuit</span>
       </div>
-      <div class="card-desc">La grande bande d'Afrosyak réunit en collectif pour les révoltes et la cohésion. Une musique qui questionne la musique qui questionne pour bouger, pour crier et chanter ensemble.</div>
+      <div class="card-desc">La grande bande d'Afrosyak réunit en collectif pour les révoltes et la cohésion. Une musique qui questionne pour bouger, pour crier et chanter ensemble.</div>
     </div>
   </div>
 
@@ -504,7 +664,7 @@
   <div class="day-group" id="grp-dim">
     <div class="day-header">Dimanche 24 mai <span class="day-num">Clôture du festival</span></div>
 
-    <div class="card" data-days="dim" data-types="theatre musique">
+    <div class="card" data-show-id="bardonne" data-days="dim" data-types="theatre musique">
       <div class="card-top">
         <div class="card-title">Bardonne — Sous les Arbres</div>
         <div class="card-time">15h15</div>
@@ -517,7 +677,7 @@
       <div class="card-desc">Fin du XIXe siècle : on rencontre dans le sud des Alpes des villages dans des situations inextricables — une Sibérie d'hiver, un Sahara d'été. Une chronique poétique des paysages limites, en musique.</div>
     </div>
 
-    <div class="card" data-days="dim" data-types="theatre">
+    <div class="card" data-show-id="motivation" data-days="dim" data-types="theatre">
       <div class="card-top">
         <div class="card-title">La Motivation</div>
         <div class="card-time">18h15</div>
@@ -530,7 +690,7 @@
       <div class="card-desc">Alice incarne la mascotte de son entreprise — une bibliothèque vivante des motivations modernes. Questionnement sur la valeur du travail à l'ère numérique, entre avatar et humanité.</div>
     </div>
 
-    <div class="card" data-days="dim" data-types="cirque rue">
+    <div class="card" data-show-id="sardine" data-days="dim" data-types="cirque rue">
       <div class="card-top">
         <div class="card-title">Banc de Sardine</div>
         <div class="card-time">19h15</div>
@@ -543,7 +703,7 @@
       <div class="card-desc">Deux bandes de clowns et un spectacle pour voir la vie comme un enfant — avec tout ce qu'un être humain a besoin des autres pour exister.</div>
     </div>
 
-    <div class="card" data-days="dim" data-types="musique free rue">
+    <div class="card" data-show-id="batuk" data-days="dim" data-types="musique free rue">
       <div class="card-top">
         <div class="card-title">Batukelbré</div>
         <div class="card-time">20h15</div>
@@ -557,7 +717,7 @@
       <div class="card-desc">Orchestre de percussions afro-brésiliennes. Pour danser et vibrer ensemble autour du Buv'Art en clôture de festival.</div>
     </div>
 
-    <div class="card" data-days="dim" data-types="musique free">
+    <div class="card" data-show-id="guinche" data-days="dim" data-types="musique free">
       <div class="card-top">
         <div class="card-title">Faut q'a guinguette</div>
         <div class="card-time">21h30</div>
@@ -570,7 +730,7 @@
       <div class="card-desc">Chanson française festive et militante aux influences rock — une énergie débordante pour finir le festival en beauté.</div>
     </div>
 
-    <div class="card" data-days="dim" data-types="musique free">
+    <div class="card" data-show-id="dj" data-days="dim" data-types="musique free">
       <div class="card-top">
         <div class="card-title">DJ Sals'Hifi</div>
         <div class="card-time">23h15</div>
@@ -609,50 +769,389 @@
 
 </main>
 
+<!-- PLANNING FAB + OVERLAY -->
+<button class="planning-fab empty" id="planning-fab" onclick="openPlanning()">
+  📋 Mon planning <span class="count" id="planning-count">0</span>
+</button>
+
+<div class="planning-overlay" id="planning-overlay" onclick="if(event.target===this)closePlanning()">
+  <div class="planning-panel">
+    <div class="planning-head">
+      <h2>Mon planning</h2>
+      <button class="planning-close" onclick="closePlanning()" aria-label="Fermer">✕</button>
+    </div>
+    <div class="planning-actions">
+      <button class="p-btn" onclick="sharePlanning()">🔗 Partager</button>
+      <button class="p-btn" onclick="exportICS()">📅 Calendrier (.ics)</button>
+      <button class="p-btn" onclick="window.print()">🖨️ PDF / Imprimer</button>
+      <button class="p-btn danger" id="reset-btn" onclick="resetPlanning()">🗑️ Tout effacer</button>
+    </div>
+    <div id="planning-body"></div>
+  </div>
+</div>
+
 <script>
+  // ---------- DATA ----------
+  const SESSIONS = [
+    { id: 'ouverture-ven',      showId: 'ouverture',  show: 'Ouverture du festival',           day: 'ven', start: '18:45', duration: 60, venue: 'Place centrale' },
+    { id: 'argent-ven',         showId: 'argent',     show: 'Argent, pudeurs et décadences',    day: 'ven', start: '20:30', duration: 75, venue: "Chap'Use" },
+    { id: 'argent-sam',         showId: 'argent',     show: 'Argent, pudeurs et décadences',    day: 'sam', start: '20:00', duration: 75, venue: "Chap'Use" },
+    { id: 'cestmoi-ven',        showId: 'cestmoi',    show: "C'est moi ou il fait un peu chaud ?", day: 'ven', start: '22:00', duration: 75, venue: "Chap'Romet" },
+    { id: 'cestmoi-sam',        showId: 'cestmoi',    show: "C'est moi ou il fait un peu chaud ?", day: 'sam', start: '22:00', duration: 75, venue: "Chap'Romet" },
+    { id: 'panier-sam-945',     showId: 'panier',     show: 'Panier Piano',                     day: 'sam', start: '09:45', duration: 35, venue: "Chap'Romet" },
+    { id: 'panier-sam-1130',    showId: 'panier',     show: 'Panier Piano',                     day: 'sam', start: '11:30', duration: 35, venue: "Chap'Romet" },
+    { id: 'panier-dim-945',     showId: 'panier',     show: 'Panier Piano',                     day: 'dim', start: '09:45', duration: 35, venue: "Chap'Romet" },
+    { id: 'panier-dim-1130',    showId: 'panier',     show: 'Panier Piano',                     day: 'dim', start: '11:30', duration: 35, venue: "Chap'Romet" },
+    { id: 'zd-sam-1130',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'sam', start: '11:30', duration: 55, venue: "Chap'Use" },
+    { id: 'zd-sam-1415',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'sam', start: '14:15', duration: 55, venue: "Chap'Use" },
+    { id: 'zd-dim-1030',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'dim', start: '10:30', duration: 55, venue: "Chap'Use" },
+    { id: 'zd-dim-1415',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'dim', start: '14:15', duration: 55, venue: "Chap'Use" },
+    { id: 'obake-sam',          showId: 'obake',      show: 'Obaké',                            day: 'sam', start: '11:00', duration: 60, venue: 'Sous les Arbres (départ accueil)' },
+    { id: 'obake-dim',          showId: 'obake',      show: 'Obaké',                            day: 'dim', start: '11:00', duration: 60, venue: 'Sous les Arbres (départ accueil)' },
+    { id: 'faune-sam',          showId: 'faune',      show: 'Faune',                            day: 'sam', start: '13:00', duration: 45, venue: 'Sous les Arbres' },
+    { id: 'froufrou-sam-1100',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'sam', start: '11:00', duration: 55, venue: 'À la Belle étoile' },
+    { id: 'froufrou-sam-1415',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'sam', start: '14:15', duration: 55, venue: 'À la Belle étoile' },
+    { id: 'froufrou-dim-1100',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'dim', start: '11:00', duration: 55, venue: 'À la Belle étoile' },
+    { id: 'froufrou-dim-1415',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'dim', start: '14:15', duration: 55, venue: 'À la Belle étoile' },
+    { id: 'trois-sam',          showId: 'trois',      show: 'Trois Contes et quelques',         day: 'sam', start: '13:00', duration: 90, venue: 'Scène Cocon' },
+    { id: 'trois-dim',          showId: 'trois',      show: 'Trois Contes et quelques',         day: 'dim', start: '12:00', duration: 90, venue: 'Scène Cocon' },
+    { id: 'tour-sam',           showId: 'tour',       show: 'Le tour du monde en 80 jours',     day: 'sam', start: '14:15', duration: 80, venue: "Chap'Romet" },
+    { id: 'madame-sam',         showId: 'madame',     show: 'MaDame',                           day: 'sam', start: '15:15', duration: 35, venue: "Chap'Romet" },
+    { id: 'madame-dim',         showId: 'madame',     show: 'MaDame',                           day: 'dim', start: '15:15', duration: 35, venue: "Chap'Romet" },
+    { id: 'bardonne-dim',       showId: 'bardonne',   show: 'Bardonne',                         day: 'dim', start: '15:15', duration: 80, venue: 'Sous les Arbres' },
+    { id: 'cava-sam-1630',      showId: 'cava',       show: 'Ça va valser',                     day: 'sam', start: '16:30', duration: 60, venue: 'Au village' },
+    { id: 'cava-dim-1630',      showId: 'cava',       show: 'Ça va valser',                     day: 'dim', start: '16:30', duration: 60, venue: 'Au village' },
+    { id: 'cava-dim-1930',      showId: 'cava',       show: 'Ça va valser',                     day: 'dim', start: '19:30', duration: 60, venue: 'Au village' },
+    { id: 'diner-sam-1745',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'sam', start: '17:45', duration: 25, venue: 'Scène Cocon' },
+    { id: 'diner-sam-1825',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'sam', start: '18:25', duration: 25, venue: 'Scène Cocon' },
+    { id: 'diner-dim-1745',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'dim', start: '17:45', duration: 25, venue: 'Scène Cocon' },
+    { id: 'diner-dim-2100',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'dim', start: '21:00', duration: 25, venue: 'Scène Cocon' },
+    { id: 'danse3d-sam',        showId: 'danse3d',    show: 'Danse en 3D',                      day: 'sam', start: '18:15', duration: 60, venue: 'Sous les Arbres' },
+    { id: 'danse3d-dim',        showId: 'danse3d',    show: 'Danse en 3D',                      day: 'dim', start: '12:45', duration: 60, venue: 'Sous les Arbres' },
+    { id: 'afro-sam',           showId: 'afro',       show: 'Afro Collectif',                   day: 'sam', start: '23:15', duration: 90, venue: "Place du Buv'Art" },
+    { id: 'motivation-dim',     showId: 'motivation', show: 'La Motivation',                    day: 'dim', start: '18:15', duration: 67, venue: 'Scène Cocon' },
+    { id: 'sardine-dim',        showId: 'sardine',    show: 'Banc de Sardine',                  day: 'dim', start: '19:15', duration: 60, venue: 'Sous les Arbres' },
+    { id: 'batuk-dim',          showId: 'batuk',      show: 'Batukelbré',                       day: 'dim', start: '20:15', duration: 60, venue: "Place du Buv'Art" },
+    { id: 'guinche-dim',        showId: 'guinche',    show: "Faut q'a guinguette",              day: 'dim', start: '21:30', duration: 90, venue: "Place du Buv'Art" },
+    { id: 'dj-dim',             showId: 'dj',         show: "DJ Sals'Hifi",                     day: 'dim', start: '23:15', duration: 120, venue: "Place du Buv'Art" },
+  ];
+
+  const SESSION_BY_ID = Object.fromEntries(SESSIONS.map(s => [s.id, s]));
+  const DAY_LABEL = { ven: 'Vendredi 22 mai', sam: 'Samedi 23 mai', dim: 'Dimanche 24 mai' };
+  const DAY_SHORT = { ven: 'Ven', sam: 'Sam', dim: 'Dim' };
+  const DAY_DATE  = { ven: '20260522', sam: '20260523', dim: '20260524' };
+  const STORAGE_KEY = 'montagnarts-planning-v1';
+
+  // ---------- HELPERS ----------
+  function timeToMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+
+  // ---------- STATE ----------
   let currentDay = 'all';
   let currentType = 'all';
+  let selected = new Set();
 
+  function loadFromStorage() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) selected = new Set(JSON.parse(raw));
+    } catch (e) { /* noop */ }
+  }
+  function saveToStorage() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected])); } catch (e) { /* noop */ }
+  }
+  function loadFromURL() {
+    const params = new URLSearchParams(location.search);
+    const p = params.get('p');
+    if (p) {
+      const ids = p.split(',').filter(id => SESSION_BY_ID[id]);
+      if (ids.length) {
+        selected = new Set(ids);
+        saveToStorage();
+      }
+    }
+  }
+
+  // ---------- FILTERS ----------
   function filterDay(day, btn) {
     currentDay = day;
     document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     applyFilters();
   }
-
   function filterType(type, btn) {
     currentType = type;
     document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     applyFilters();
   }
-
   function applyFilters() {
     const cards = document.querySelectorAll('.card');
     let visible = 0;
     cards.forEach(card => {
-      const days = card.dataset.days || '';
+      const day = card.dataset.renderDay || '';
       const types = card.dataset.types || '';
-      const dayOk = currentDay === 'all' || days.includes(currentDay);
+      const dayOk = currentDay === 'all' || day === currentDay;
       const typeOk = currentType === 'all' || types.includes(currentType);
       if (dayOk && typeOk) { card.classList.remove('hidden'); visible++; }
       else card.classList.add('hidden');
     });
-
-    // Show/hide day group containers and their headers
     ['ven','sam','dim'].forEach(d => {
       const grp = document.getElementById('grp-' + d);
       if (!grp) return;
       const anyVisible = [...grp.querySelectorAll('.card')].some(c => !c.classList.contains('hidden'));
       grp.style.display = anyVisible ? '' : 'none';
-      const header = grp.querySelector('.day-header');
-      if (header) {
-        header.style.display = (currentDay === 'all' || currentDay === d) ? '' : 'none';
-      }
     });
-
     document.getElementById('empty-msg').style.display = visible === 0 ? 'block' : 'none';
   }
+
+  // ---------- DISTRIBUTE CARDS BY DAY ----------
+  // For each show, place a card copy in every day-group it has sessions in,
+  // sorted by the earliest session of that day.
+  function distributeCardsByDay() {
+    const templates = {};
+    document.querySelectorAll('.card[data-show-id]').forEach(c => {
+      const id = c.dataset.showId;
+      if (!templates[id]) templates[id] = c.cloneNode(true);
+      c.remove();
+    });
+    ['ven','sam','dim'].forEach(day => {
+      const earliestByShow = {};
+      SESSIONS.filter(s => s.day === day).forEach(s => {
+        const cur = earliestByShow[s.showId];
+        if (!cur || timeToMin(s.start) < timeToMin(cur.start)) earliestByShow[s.showId] = s;
+      });
+      const sorted = Object.values(earliestByShow).sort((a, b) => timeToMin(a.start) - timeToMin(b.start));
+      const grp = document.getElementById('grp-' + day);
+      if (!grp) return;
+      sorted.forEach(s => {
+        const tpl = templates[s.showId];
+        if (!tpl) return;
+        const clone = tpl.cloneNode(true);
+        clone.dataset.renderDay = day;
+        grp.appendChild(clone);
+      });
+    });
+  }
+
+  // ---------- CHIP RENDERING ----------
+  function chipLabel(s, withDayPrefix) {
+    const t = s.start.replace(':', 'h');
+    return withDayPrefix ? DAY_SHORT[s.day] + ' ' + t : t;
+  }
+  function renderChipsForCard(card) {
+    const showId = card.dataset.showId;
+    const renderDay = card.dataset.renderDay;
+    if (!showId) return;
+    const ss = SESSIONS.filter(s => s.showId === showId && (!renderDay || s.day === renderDay));
+    if (!ss.length) return;
+    const slot = card.querySelector('.card-time');
+    if (!slot) return;
+    slot.classList.add('card-sessions');
+    slot.innerHTML = ss.map(s =>
+      `<button class="ses-chip${selected.has(s.id) ? ' selected' : ''}" data-sid="${s.id}" type="button">${chipLabel(s, !renderDay)}</button>`
+    ).join('');
+  }
+  function renderAllChips() {
+    document.querySelectorAll('.card[data-show-id]').forEach(renderChipsForCard);
+  }
+  function refreshSelectedChipStates() {
+    document.querySelectorAll('.ses-chip').forEach(chip => {
+      chip.classList.toggle('selected', selected.has(chip.dataset.sid));
+    });
+  }
+
+  // ---------- TOGGLE ----------
+  function toggleSession(sid) {
+    if (selected.has(sid)) selected.delete(sid);
+    else selected.add(sid);
+    saveToStorage();
+    refreshSelectedChipStates();
+    refreshFab();
+    if (document.getElementById('planning-overlay').classList.contains('open')) renderPlanning();
+  }
+
+  // ---------- FAB ----------
+  function refreshFab() {
+    const fab = document.getElementById('planning-fab');
+    const count = document.getElementById('planning-count');
+    count.textContent = selected.size;
+    fab.classList.toggle('empty', selected.size === 0);
+  }
+
+  // ---------- PLANNING PANEL ----------
+  function openPlanning() {
+    renderPlanning();
+    document.getElementById('planning-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePlanning() {
+    document.getElementById('planning-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function endMin(s) { return timeToMin(s.start) + s.duration; }
+  function fmtRange(s) {
+    const eh = Math.floor(endMin(s) / 60), em = endMin(s) % 60;
+    return s.start.replace(':','h') + ' → ' + String(eh).padStart(2,'0') + 'h' + String(em).padStart(2,'0');
+  }
+  function detectConflicts(daySessions) {
+    const set = new Set();
+    for (let i = 0; i < daySessions.length; i++) {
+      for (let j = i + 1; j < daySessions.length; j++) {
+        const a = daySessions[i], b = daySessions[j];
+        const aStart = timeToMin(a.start), aEnd = endMin(a);
+        const bStart = timeToMin(b.start), bEnd = endMin(b);
+        if (aStart < bEnd && bStart < aEnd) {
+          set.add(a.id); set.add(b.id);
+        }
+      }
+    }
+    return set;
+  }
+  function renderPlanning() {
+    const body = document.getElementById('planning-body');
+    if (selected.size === 0) {
+      body.innerHTML = '<div class="planning-empty">Aucun spectacle sélectionné.<br>Cochez les horaires dans le programme pour construire votre planning.</div>';
+      return;
+    }
+    const byDay = { ven: [], sam: [], dim: [] };
+    [...selected].forEach(id => {
+      const s = SESSION_BY_ID[id];
+      if (s) byDay[s.day].push(s);
+    });
+    let html = '';
+    ['ven','sam','dim'].forEach(d => {
+      const list = byDay[d];
+      if (!list.length) return;
+      list.sort((a, b) => timeToMin(a.start) - timeToMin(b.start));
+      const conflicts = detectConflicts(list);
+      html += `<div class="planning-day"><h3>${DAY_LABEL[d]}</h3>`;
+      if (conflicts.size) {
+        html += `<div class="planning-conflict-warn">⚠ Chevauchement détecté entre ${conflicts.size} spectacles</div>`;
+      }
+      html += list.map(s => {
+        const cls = conflicts.has(s.id) ? ' conflict' : '';
+        const tag = conflicts.has(s.id) ? '<div class="pi-tag">Chevauchement</div>' : '';
+        return `<div class="pi${cls}">
+          <div class="pi-time">${fmtRange(s)}</div>
+          <div class="pi-body">
+            <div class="pi-title">${escapeHtml(s.show)}</div>
+            <div class="pi-venue">📍 ${escapeHtml(s.venue)}</div>
+            ${tag}
+          </div>
+          <button class="pi-rm" onclick="toggleSession('${s.id}')" aria-label="Retirer">✕</button>
+        </div>`;
+      }).join('');
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  }
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ---------- ACTIONS ----------
+  function resetPlanning() {
+    const btn = document.getElementById('reset-btn');
+    if (btn && !btn.dataset.armed) {
+      btn.dataset.armed = '1';
+      btn.textContent = '⚠️ Cliquer pour confirmer';
+      setTimeout(() => {
+        if (btn.dataset.armed) {
+          delete btn.dataset.armed;
+          btn.textContent = '🗑️ Tout effacer';
+        }
+      }, 3000);
+      return;
+    }
+    if (btn) {
+      delete btn.dataset.armed;
+      btn.textContent = '🗑️ Tout effacer';
+    }
+    selected.clear();
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    refreshSelectedChipStates();
+    refreshFab();
+    renderPlanning();
+  }
+  function sharePlanning() {
+    if (selected.size === 0) { alert('Aucun spectacle sélectionné.'); return; }
+    const url = location.origin + location.pathname + '?p=' + [...selected].join(',');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        () => alert('Lien copié dans le presse-papier !\n\n' + url),
+        () => prompt('Copiez ce lien :', url)
+      );
+    } else {
+      prompt('Copiez ce lien :', url);
+    }
+  }
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function exportICS() {
+    if (selected.size === 0) { alert('Aucun spectacle sélectionné.'); return; }
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Montagnarts 2026//FR',
+      'CALSCALE:GREGORIAN',
+    ];
+    [...selected].forEach(id => {
+      const s = SESSION_BY_ID[id];
+      if (!s) return;
+      const date = DAY_DATE[s.day];
+      const [sh, sm] = s.start.split(':').map(Number);
+      const startStamp = `${date}T${pad(sh)}${pad(sm)}00`;
+      const endTotal = sh * 60 + sm + s.duration;
+      const eh = Math.floor(endTotal / 60), em = endTotal % 60;
+      // crossing midnight: bump to next day
+      let endDate = date;
+      let endH = eh;
+      if (eh >= 24) {
+        endH = eh - 24;
+        const next = { '20260522': '20260523', '20260523': '20260524', '20260524': '20260525' };
+        endDate = next[date] || date;
+      }
+      const endStamp = `${endDate}T${pad(endH)}${pad(em)}00`;
+      lines.push('BEGIN:VEVENT');
+      lines.push('UID:' + s.id + '@montagnarts.org');
+      lines.push('DTSTART:' + startStamp);
+      lines.push('DTEND:' + endStamp);
+      lines.push('SUMMARY:' + icsEscape(s.show));
+      lines.push('LOCATION:' + icsEscape(s.venue + ', Valbonnais'));
+      lines.push('DESCRIPTION:' + icsEscape('Festival Les Montagnarts 2026'));
+      lines.push('END:VEVENT');
+    });
+    lines.push('END:VCALENDAR');
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'mon-planning-montagnarts-2026.ics';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  function icsEscape(s) {
+    return s.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+  }
+
+  // ---------- INIT ----------
+  document.addEventListener('DOMContentLoaded', () => {
+    loadFromStorage();
+    loadFromURL();
+    distributeCardsByDay();
+    renderAllChips();
+    refreshFab();
+
+    // Delegated chip click
+    document.addEventListener('click', e => {
+      const chip = e.target.closest('.ses-chip');
+      if (chip) { toggleSession(chip.dataset.sid); }
+    });
+
+    // ESC closes panel
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closePlanning();
+    });
+  });
 </script>
 </body>
 </html>
