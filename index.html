@@ -308,10 +308,16 @@
     display: flex; gap: 12px; align-items: flex-start;
   }
   .pi.conflict { border-color: var(--conflict); background: #fff8f7; }
+  .pi-left {
+    display: flex; flex-direction: column;
+    align-items: flex-start; gap: 6px;
+    min-width: 92px;
+  }
   .pi-time {
     font-weight: 600; color: var(--text);
-    min-width: 92px; font-size: 13px;
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
   .pi-body { flex: 1; min-width: 0; }
   .pi-title { font-size: 14px; color: var(--text); }
@@ -323,6 +329,20 @@
     line-height: 1;
   }
   .pi-rm:hover { color: var(--conflict); }
+  .pi-reserve {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 11px; border-radius: 14px;
+    background: var(--accent); color: white;
+    text-decoration: none; transition: all .15s;
+  }
+  .pi-reserve:hover { background: #a83d20; transform: translateY(-1px); }
+  .pi-free {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 11px; border-radius: 14px;
+    background: var(--green-light); color: var(--green);
+  }
 
   /* PRINT */
   @media print {
@@ -418,7 +438,7 @@
     <div class="card" data-show-id="argent" data-days="ven sam" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Argent, pudeurs et décadences</div>
-        <div class="card-time">Ven 20h30 · Sam 20h00</div>
+        <div class="card-time">Ven 20h30 · Sam 20h30</div>
       </div>
       <div class="card-meta">Collectif AIAA · Ven 22 & Sam 23 · 1h15</div>
       <div class="tags">
@@ -478,7 +498,7 @@
     <div class="card" data-show-id="zd" data-days="sam dim" data-types="cirque musique">
       <div class="card-top">
         <div class="card-title">Z-D Zone à la dérive</div>
-        <div class="card-time">Sam 11h30 & 14h15 · Dim 10h30 & 14h15</div>
+        <div class="card-time">Sam 10h30 & 14h15 · Dim 10h30 & 14h15</div>
       </div>
       <div class="card-meta">Compagnie Solfaïric · Sam 23 & Dim 24 · Dès 4 ans · 55 min</div>
       <div class="tags">
@@ -547,9 +567,9 @@
     <div class="card" data-show-id="trois" data-days="sam dim" data-types="conte theatre">
       <div class="card-top">
         <div class="card-title">Trois Contes et quelques</div>
-        <div class="card-time">Sam 13h00 · Dim 12h00</div>
+        <div class="card-time">Sam 12h45 · Dim 12h00</div>
       </div>
-      <div class="card-meta">Groupe Merci · Sam 23 & Dim 24 · Dès 12 ans · 1h30</div>
+      <div class="card-meta">Groupe Merci · Sam 23 & Dim 24 · Dès 12 ans · 1h10</div>
       <div class="tags">
         <span class="tag tag-conte">Conte</span>
         <span class="tag tag-theatre">Théâtre</span>
@@ -566,7 +586,7 @@
     <div class="card" data-show-id="tour" data-days="sam" data-types="theatre">
       <div class="card-top">
         <div class="card-title">Le tour du monde en 80 jours</div>
-        <div class="card-time">14h15</div>
+        <div class="card-time">15h15</div>
       </div>
       <div class="card-meta">Chap'Romet · Sam 23 · Dès 8 ans · 1h20 · Représentation unique</div>
       <div class="tags">
@@ -584,7 +604,7 @@
         <div class="card-title">MaDame</div>
         <div class="card-time">15h15</div>
       </div>
-      <div class="card-meta">Compagnie 3 secondes · Sam 23 & Dim 24 · Dès 5 ans · 35 min</div>
+      <div class="card-meta">Compagnie 3 secondes · Sam 23 & Dim 24 · Dès 5 ans · 40 min</div>
       <div class="tags">
         <span class="tag tag-cirque">Cirque acrobatique</span>
         <span class="tag tag-theatre">Scènes courtes</span>
@@ -599,9 +619,9 @@
     <div class="card" data-show-id="cava" data-days="sam dim" data-types="musique rue">
       <div class="card-top">
         <div class="card-title">Ça va valser</div>
-        <div class="card-time">Sam 16h30 · Dim 16h30 & 19h30</div>
+        <div class="card-time">Sam 16h30 & 19h30 · Dim 16h30 & 19h15</div>
       </div>
-      <div class="card-meta">Les Rustines de l'Ange · Sam 23 & Dim 24 · Tout public · Rue · 1h</div>
+      <div class="card-meta">Les Rustines de l'Ange · Sam 23 & Dim 24 · Tout public · Rue · 55 min</div>
       <div class="tags">
         <span class="tag tag-musique">6 Accordéons</span>
         <span class="tag tag-rue">Arts de la rue</span>
@@ -616,7 +636,7 @@
     <div class="card" data-show-id="diner" data-days="sam dim" data-types="cirque">
       <div class="card-top">
         <div class="card-title">Un dîner pour 1</div>
-        <div class="card-time">Sam 17h45 & 18h25 · Dim 17h45 & 21h00</div>
+        <div class="card-time">Sam 17h45 & 20h30 · Dim 17h45 & 21h00</div>
       </div>
       <div class="card-meta">Le P'tit Cirk · Sam 23 & Dim 24 · Dès 6 ans · 25 min</div>
       <div class="tags">
@@ -636,7 +656,7 @@
         <div class="card-title">Danse en 3D — Sous les Arbres</div>
         <div class="card-time">Sam 18h15 · Dim 12h45</div>
       </div>
-      <div class="card-meta">Clara Bard / NORDC · Sam 23 & Dim 24 · 1h</div>
+      <div class="card-meta">Clara Bard / NORDC · Sam 23 & Dim 24 · 1h05</div>
       <div class="tags">
         <span class="tag tag-danse">Danse contemporaine</span>
       </div>
@@ -648,10 +668,10 @@
 
     <div class="card" data-show-id="afro" data-days="sam" data-types="musique free">
       <div class="card-top">
-        <div class="card-title">Afro Collectif</div>
+        <div class="card-title">Afrö Collectif</div>
         <div class="card-time">23h15</div>
       </div>
-      <div class="card-meta">Sam 23 · Concert · Gratuit</div>
+      <div class="card-meta">Sam 23 · Concert · 1h45</div>
       <div class="tags">
         <span class="tag tag-musique">Concert</span>
         <span class="tag tag-free">✨ Gratuit</span>
@@ -693,7 +713,7 @@
     <div class="card" data-show-id="sardine" data-days="dim" data-types="cirque rue">
       <div class="card-top">
         <div class="card-title">Banc de Sardine</div>
-        <div class="card-time">19h15</div>
+        <div class="card-time">18h15</div>
       </div>
       <div class="card-meta">Dim 24 · Sous les Arbres · Tout public · 1h · Représentation unique</div>
       <div class="tags">
@@ -705,7 +725,7 @@
 
     <div class="card" data-show-id="batuk" data-days="dim" data-types="musique free rue">
       <div class="card-top">
-        <div class="card-title">Batukelbré</div>
+        <div class="card-title">Batukélibré</div>
         <div class="card-time">20h15</div>
       </div>
       <div class="card-meta">Dim 24 · Place du Buv'Art · Gratuit</div>
@@ -719,10 +739,10 @@
 
     <div class="card" data-show-id="guinche" data-days="dim" data-types="musique free">
       <div class="card-top">
-        <div class="card-title">Faut q'a guinguette</div>
+        <div class="card-title">Faut qu'ça guinche</div>
         <div class="card-time">21h30</div>
       </div>
-      <div class="card-meta">Dim 24 · Concert · Gratuit</div>
+      <div class="card-meta">Dim 24 · Concert · 1h15</div>
       <div class="tags">
         <span class="tag tag-musique">Chanson française festive</span>
         <span class="tag tag-free">✨ Gratuit</span>
@@ -792,47 +812,49 @@
 
 <script>
   // ---------- DATA ----------
+  const RES = 'https://www.lesmontagnarts.org/produit/';
   const SESSIONS = [
     { id: 'ouverture-ven',      showId: 'ouverture',  show: 'Ouverture du festival',           day: 'ven', start: '18:45', duration: 60, venue: 'Place centrale' },
-    { id: 'argent-ven',         showId: 'argent',     show: 'Argent, pudeurs et décadences',    day: 'ven', start: '20:30', duration: 75, venue: "Chap'Use" },
-    { id: 'argent-sam',         showId: 'argent',     show: 'Argent, pudeurs et décadences',    day: 'sam', start: '20:00', duration: 75, venue: "Chap'Use" },
-    { id: 'cestmoi-ven',        showId: 'cestmoi',    show: "C'est moi ou il fait un peu chaud ?", day: 'ven', start: '22:00', duration: 75, venue: "Chap'Romet" },
-    { id: 'cestmoi-sam',        showId: 'cestmoi',    show: "C'est moi ou il fait un peu chaud ?", day: 'sam', start: '22:00', duration: 75, venue: "Chap'Romet" },
-    { id: 'panier-sam-945',     showId: 'panier',     show: 'Panier Piano',                     day: 'sam', start: '09:45', duration: 35, venue: "Chap'Romet" },
-    { id: 'panier-sam-1130',    showId: 'panier',     show: 'Panier Piano',                     day: 'sam', start: '11:30', duration: 35, venue: "Chap'Romet" },
-    { id: 'panier-dim-945',     showId: 'panier',     show: 'Panier Piano',                     day: 'dim', start: '09:45', duration: 35, venue: "Chap'Romet" },
-    { id: 'panier-dim-1130',    showId: 'panier',     show: 'Panier Piano',                     day: 'dim', start: '11:30', duration: 35, venue: "Chap'Romet" },
-    { id: 'zd-sam-1130',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'sam', start: '11:30', duration: 55, venue: "Chap'Use" },
-    { id: 'zd-sam-1415',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'sam', start: '14:15', duration: 55, venue: "Chap'Use" },
-    { id: 'zd-dim-1030',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'dim', start: '10:30', duration: 55, venue: "Chap'Use" },
-    { id: 'zd-dim-1415',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'dim', start: '14:15', duration: 55, venue: "Chap'Use" },
-    { id: 'obake-sam',          showId: 'obake',      show: 'Obaké',                            day: 'sam', start: '11:00', duration: 60, venue: 'Sous les Arbres (départ accueil)' },
-    { id: 'obake-dim',          showId: 'obake',      show: 'Obaké',                            day: 'dim', start: '11:00', duration: 60, venue: 'Sous les Arbres (départ accueil)' },
-    { id: 'faune-sam',          showId: 'faune',      show: 'Faune',                            day: 'sam', start: '13:00', duration: 45, venue: 'Sous les Arbres' },
-    { id: 'froufrou-sam-1100',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'sam', start: '11:00', duration: 55, venue: 'À la Belle étoile' },
-    { id: 'froufrou-sam-1415',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'sam', start: '14:15', duration: 55, venue: 'À la Belle étoile' },
-    { id: 'froufrou-dim-1100',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'dim', start: '11:00', duration: 55, venue: 'À la Belle étoile' },
-    { id: 'froufrou-dim-1415',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'dim', start: '14:15', duration: 55, venue: 'À la Belle étoile' },
-    { id: 'trois-sam',          showId: 'trois',      show: 'Trois Contes et quelques',         day: 'sam', start: '13:00', duration: 90, venue: 'Scène Cocon' },
-    { id: 'trois-dim',          showId: 'trois',      show: 'Trois Contes et quelques',         day: 'dim', start: '12:00', duration: 90, venue: 'Scène Cocon' },
-    { id: 'tour-sam',           showId: 'tour',       show: 'Le tour du monde en 80 jours',     day: 'sam', start: '14:15', duration: 80, venue: "Chap'Romet" },
-    { id: 'madame-sam',         showId: 'madame',     show: 'MaDame',                           day: 'sam', start: '15:15', duration: 35, venue: "Chap'Romet" },
-    { id: 'madame-dim',         showId: 'madame',     show: 'MaDame',                           day: 'dim', start: '15:15', duration: 35, venue: "Chap'Romet" },
-    { id: 'bardonne-dim',       showId: 'bardonne',   show: 'Bardonne',                         day: 'dim', start: '15:15', duration: 80, venue: 'Sous les Arbres' },
-    { id: 'cava-sam-1630',      showId: 'cava',       show: 'Ça va valser',                     day: 'sam', start: '16:30', duration: 60, venue: 'Au village' },
-    { id: 'cava-dim-1630',      showId: 'cava',       show: 'Ça va valser',                     day: 'dim', start: '16:30', duration: 60, venue: 'Au village' },
-    { id: 'cava-dim-1930',      showId: 'cava',       show: 'Ça va valser',                     day: 'dim', start: '19:30', duration: 60, venue: 'Au village' },
-    { id: 'diner-sam-1745',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'sam', start: '17:45', duration: 25, venue: 'Scène Cocon' },
-    { id: 'diner-sam-1825',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'sam', start: '18:25', duration: 25, venue: 'Scène Cocon' },
-    { id: 'diner-dim-1745',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'dim', start: '17:45', duration: 25, venue: 'Scène Cocon' },
-    { id: 'diner-dim-2100',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'dim', start: '21:00', duration: 25, venue: 'Scène Cocon' },
-    { id: 'danse3d-sam',        showId: 'danse3d',    show: 'Danse en 3D',                      day: 'sam', start: '18:15', duration: 60, venue: 'Sous les Arbres' },
-    { id: 'danse3d-dim',        showId: 'danse3d',    show: 'Danse en 3D',                      day: 'dim', start: '12:45', duration: 60, venue: 'Sous les Arbres' },
-    { id: 'afro-sam',           showId: 'afro',       show: 'Afro Collectif',                   day: 'sam', start: '23:15', duration: 90, venue: "Place du Buv'Art" },
-    { id: 'motivation-dim',     showId: 'motivation', show: 'La Motivation',                    day: 'dim', start: '18:15', duration: 67, venue: 'Scène Cocon' },
-    { id: 'sardine-dim',        showId: 'sardine',    show: 'Banc de Sardine',                  day: 'dim', start: '19:15', duration: 60, venue: 'Sous les Arbres' },
-    { id: 'batuk-dim',          showId: 'batuk',      show: 'Batukelbré',                       day: 'dim', start: '20:15', duration: 60, venue: "Place du Buv'Art" },
-    { id: 'guinche-dim',        showId: 'guinche',    show: "Faut q'a guinguette",              day: 'dim', start: '21:30', duration: 90, venue: "Place du Buv'Art" },
+    { id: 'argent-ven',         showId: 'argent',     show: 'Argent, pudeurs et décadences',    day: 'ven', start: '20:30', duration: 75, venue: "Chap'Use",   reserveUrl: RES + 'argent-pudeurs-et-decadences-vendredi-22-mai-a-20h30-duree-1h15/' },
+    { id: 'argent-sam',         showId: 'argent',     show: 'Argent, pudeurs et décadences',    day: 'sam', start: '20:30', duration: 75, venue: "Chap'Use",   reserveUrl: RES + 'argent-pudeurs-et-decadences-samedi-23-mai-a-20h30-duree-1h15/' },
+    { id: 'cestmoi-ven',        showId: 'cestmoi',    show: "C'est moi ou il fait un peu chaud ?", day: 'ven', start: '22:00', duration: 75, venue: "Chap'Romet", reserveUrl: RES + 'c-est-moi-ou-il-fait-un-peu-chaud-vendredi-22-mai-a-22h00-duree-1h15/' },
+    { id: 'cestmoi-sam',        showId: 'cestmoi',    show: "C'est moi ou il fait un peu chaud ?", day: 'sam', start: '22:00', duration: 75, venue: "Chap'Romet", reserveUrl: RES + 'cest-moi-ou-il-fait-un-peu-chaud-samedi-23-mai-a-22h00-duree-1h15/' },
+    { id: 'panier-sam-945',     showId: 'panier',     show: 'Panier Piano',                     day: 'sam', start: '09:45', duration: 35, venue: "Chap'Romet", reserveUrl: RES + 'panier-piano-samedi-23-mai-a-9h45-duree-35-min/' },
+    { id: 'panier-sam-1130',    showId: 'panier',     show: 'Panier Piano',                     day: 'sam', start: '11:30', duration: 35, venue: "Chap'Romet", reserveUrl: RES + 'panier-piano-samedi-23-mai-a-11h30-duree-35-min/' },
+    { id: 'panier-dim-945',     showId: 'panier',     show: 'Panier Piano',                     day: 'dim', start: '09:45', duration: 35, venue: "Chap'Romet", reserveUrl: RES + 'panier-piano-dimanche-24-mai-a-9h45-duree-35-min/' },
+    { id: 'panier-dim-1130',    showId: 'panier',     show: 'Panier Piano',                     day: 'dim', start: '11:30', duration: 35, venue: "Chap'Romet", reserveUrl: RES + 'panier-piano-dimanche-24-mai-a-11h30-duree-35-min/' },
+    { id: 'zd-sam-1030',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'sam', start: '10:30', duration: 55, venue: "Chap'Use",   reserveUrl: RES + 'zd-zone-a-la-derive-samedi-23-mai-a-10h30-duree-55min/' },
+    { id: 'zd-sam-1415',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'sam', start: '14:15', duration: 55, venue: "Chap'Use",   reserveUrl: RES + 'z-d-zone-a-la-derive-samedi-23-mai-a-14h15-duree-55-min/' },
+    { id: 'zd-dim-1030',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'dim', start: '10:30', duration: 55, venue: "Chap'Use",   reserveUrl: RES + 'z-d-zone-a-la-derive-dimanche-24-mai-a-10h30-duree-55-min/' },
+    { id: 'zd-dim-1415',        showId: 'zd',         show: 'Z-D Zone à la dérive',             day: 'dim', start: '14:15', duration: 55, venue: "Chap'Use",   reserveUrl: RES + 'z-d-zone-a-la-derive-dimanche-24-mai-a-14h15-duree-55-min/' },
+    { id: 'obake-sam',          showId: 'obake',      show: 'Obaké',                            day: 'sam', start: '11:00', duration: 60, venue: 'Sous les Arbres (départ accueil)', reserveUrl: RES + 'obake-samedi-23-mai-a-11h00-duree-1h/' },
+    { id: 'obake-dim',          showId: 'obake',      show: 'Obaké',                            day: 'dim', start: '11:00', duration: 60, venue: 'Sous les Arbres (départ accueil)', reserveUrl: RES + 'obake-dimanche-24-mai-a-11h00-duree-1h/' },
+    { id: 'faune-sam',          showId: 'faune',      show: 'Faune',                            day: 'sam', start: '13:00', duration: 45, venue: 'Sous les Arbres', reserveUrl: RES + 'faune-samedi-23-mai-a-13h00-duree-45min/' },
+    { id: 'froufrou-sam-1100',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'sam', start: '11:00', duration: 55, venue: 'À la Belle étoile', reserveUrl: RES + 'frou-frou-samedi-23-mai-a-11h00-duree-55-min/' },
+    { id: 'froufrou-sam-1415',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'sam', start: '14:15', duration: 55, venue: 'À la Belle étoile', reserveUrl: RES + 'frou-frou-samedi-23-mai-a-14h15-duree-55-min/' },
+    { id: 'froufrou-dim-1100',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'dim', start: '11:00', duration: 55, venue: 'À la Belle étoile', reserveUrl: RES + 'frou-frou-dimanche-24-mai-a-11h00-duree-55-min/' },
+    { id: 'froufrou-dim-1415',  showId: 'froufrou',   show: 'Frou-Frou',                        day: 'dim', start: '14:15', duration: 55, venue: 'À la Belle étoile', reserveUrl: RES + 'frou-frou-dimanche-24-mai-a-14h15-duree-55-min/' },
+    { id: 'trois-sam',          showId: 'trois',      show: 'Trois Contes et quelques',         day: 'sam', start: '12:45', duration: 70, venue: 'Scène Cocon', reserveUrl: RES + 'trois-contes-et-quelques-samedi-23-mai-a-12h45-duree-1h10/' },
+    { id: 'trois-dim',          showId: 'trois',      show: 'Trois Contes et quelques',         day: 'dim', start: '12:00', duration: 70, venue: 'Scène Cocon', reserveUrl: RES + 'trois-contes-et-quelques-dimanche-24-mai-a-12h00-duree-1h10/' },
+    { id: 'tour-sam',           showId: 'tour',       show: 'Le tour du monde en 80 jours',     day: 'sam', start: '15:15', duration: 80, venue: "Chap'Romet", reserveUrl: RES + 'le-tour-du-monde-en-80-jours-samedi-23-mai-a-15h15-duree-1h20/' },
+    { id: 'madame-sam',         showId: 'madame',     show: 'MaDame',                           day: 'sam', start: '15:15', duration: 40, venue: "Chap'Romet", reserveUrl: RES + 'madame-samedi-23-mai-a-15h15-duree-40min/' },
+    { id: 'madame-dim',         showId: 'madame',     show: 'MaDame',                           day: 'dim', start: '15:15', duration: 40, venue: "Chap'Romet", reserveUrl: RES + 'madame-dimanche-24-mai-a-15h15-duree-40min/' },
+    { id: 'bardonne-dim',       showId: 'bardonne',   show: 'Bardonne',                         day: 'dim', start: '15:15', duration: 60, venue: 'Sous les Arbres', reserveUrl: RES + 'danse-en-3d-dimanche-24-mai-a-15h15-duree-1h/' },
+    { id: 'cava-sam-1630',      showId: 'cava',       show: 'Ça va valser',                     day: 'sam', start: '16:30', duration: 55, venue: 'Au village', reserveUrl: RES + 'ca-va-valser-samedi-23-mai-a-16h30-duree-55-min/' },
+    { id: 'cava-sam-1930',      showId: 'cava',       show: 'Ça va valser',                     day: 'sam', start: '19:30', duration: 55, venue: 'Au village', reserveUrl: RES + 'ca-va-valser-samedi-23-mai-a-19h30-duree-55-min/' },
+    { id: 'cava-dim-1630',      showId: 'cava',       show: 'Ça va valser',                     day: 'dim', start: '16:30', duration: 55, venue: 'Au village', reserveUrl: RES + 'ca-va-valser-dimanche-24-mai-a-16h30-duree-55-min/' },
+    { id: 'cava-dim-1915',      showId: 'cava',       show: 'Ça va valser',                     day: 'dim', start: '19:15', duration: 55, venue: 'Au village', reserveUrl: RES + 'ca-va-valser-dimanche-24-mai-a-19h15-duree-55-min-copie/' },
+    { id: 'diner-sam-1745',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'sam', start: '17:45', duration: 25, venue: 'Scène Cocon', reserveUrl: RES + 'un-diner-pour-1-samedi-23-mai-a-17h45-duree-25-min/' },
+    { id: 'diner-sam-2030',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'sam', start: '20:30', duration: 25, venue: 'Scène Cocon', reserveUrl: RES + 'un-diner-pour-1-samedi-23-mai-a-20h30-duree-25-min/' },
+    { id: 'diner-dim-1745',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'dim', start: '17:45', duration: 25, venue: 'Scène Cocon', reserveUrl: RES + 'un-diner-pour-1-dimanche-24-mai-a-17h45-duree-25-min/' },
+    { id: 'diner-dim-2100',     showId: 'diner',      show: 'Un dîner pour 1',                  day: 'dim', start: '21:00', duration: 25, venue: 'Scène Cocon', reserveUrl: RES + 'un-diner-pour-1-dimanche-24-mai-a-21h00-duree-25-min/' },
+    { id: 'danse3d-sam',        showId: 'danse3d',    show: 'Danse en 3D',                      day: 'sam', start: '18:15', duration: 65, venue: 'Sous les Arbres', reserveUrl: RES + 'danse-rn-3d-samedi-23-mai-a-18h15-duree-1h05min/' },
+    { id: 'danse3d-dim',        showId: 'danse3d',    show: 'Danse en 3D',                      day: 'dim', start: '12:45', duration: 65, venue: 'Sous les Arbres', reserveUrl: RES + 'danse-en-3d-dimanche-24-mai-a-13h10-duree-1h05min/' },
+    { id: 'afro-sam',           showId: 'afro',       show: 'Afrö Collectif',                   day: 'sam', start: '23:15', duration: 105, venue: "Place du Buv'Art" },
+    { id: 'motivation-dim',     showId: 'motivation', show: 'La Motivation',                    day: 'dim', start: '18:15', duration: 67, venue: 'Scène Cocon', reserveUrl: RES + 'la-motivation-dimanche-24-mai-a-18h15-duree-1h07/' },
+    { id: 'sardine-dim',        showId: 'sardine',    show: 'Banc de Sardine',                  day: 'dim', start: '18:15', duration: 60, venue: 'Sous les Arbres', reserveUrl: RES + 'banc-de-sardine-dimanche-24-mai-a-18h15-duree-1h/' },
+    { id: 'batuk-dim',          showId: 'batuk',      show: 'Batukélibré',                      day: 'dim', start: '20:15', duration: 60, venue: "Place du Buv'Art" },
+    { id: 'guinche-dim',        showId: 'guinche',    show: "Faut qu'ça guinche",               day: 'dim', start: '21:30', duration: 75, venue: "Place du Buv'Art" },
     { id: 'dj-dim',             showId: 'dj',         show: "DJ Sals'Hifi",                     day: 'dim', start: '23:15', duration: 120, venue: "Place du Buv'Art" },
   ];
 
@@ -1031,8 +1053,14 @@
       html += list.map(s => {
         const cls = conflicts.has(s.id) ? ' conflict' : '';
         const tag = conflicts.has(s.id) ? '<div class="pi-tag">Chevauchement</div>' : '';
+        const reserve = s.reserveUrl
+          ? `<a class="pi-reserve" href="${s.reserveUrl}" target="_blank" rel="noopener">🎟 Réserver</a>`
+          : '<span class="pi-free">✨ Gratuit</span>';
         return `<div class="pi${cls}">
-          <div class="pi-time">${fmtRange(s)}</div>
+          <div class="pi-left">
+            <div class="pi-time">${fmtRange(s)}</div>
+            ${reserve}
+          </div>
           <div class="pi-body">
             <div class="pi-title">${escapeHtml(s.show)}</div>
             <div class="pi-venue">📍 ${escapeHtml(s.venue)}</div>
