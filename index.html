@@ -99,6 +99,124 @@
   .f-btn:hover { border-color: var(--text2); color: var(--text); }
   .f-btn.active { background: var(--text); color: white; border-color: var(--text); }
 
+  /* VIEW TOGGLE (in sticky filters bar) */
+  .view-toggle {
+    margin-left: auto; display: inline-flex; gap: 2px;
+    padding: 2px; border: 1px solid var(--border);
+    border-radius: 20px; background: var(--surface2);
+  }
+  .v-btn {
+    font-size: 12px; font-family: 'DM Sans', sans-serif;
+    padding: 4px 12px; border-radius: 18px;
+    border: none; background: transparent; color: var(--text2);
+    cursor: pointer; transition: all .15s; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .v-btn:hover { color: var(--text); }
+  .v-btn.active { background: var(--text); color: white; }
+  .hidden-view { display: none !important; }
+
+  /* GANTT VIEW */
+  .gantt-view { padding: 18px 0 96px; }
+  .gantt-empty { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; display: none; }
+  .gantt-scroll {
+    overflow-x: auto;
+    padding: 0 16px 24px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .gantt-grid { position: relative; min-width: 1700px; }
+
+  .gantt-axis-row {
+    display: flex; height: 32px; align-items: flex-end;
+    border-bottom: 2px solid var(--text);
+    margin-bottom: 6px;
+    position: sticky; top: 0; background: var(--bg); z-index: 6;
+  }
+  .gantt-axis-spacer {
+    width: 96px; flex-shrink: 0;
+    position: sticky; left: 0; background: var(--bg); z-index: 7;
+    border-right: 1px solid var(--border);
+  }
+  .gantt-axis { flex: 1; position: relative; }
+  .gantt-hour {
+    position: absolute; bottom: 4px; transform: translateX(-50%);
+    font-size: 10.5px; color: var(--text3);
+    font-variant-numeric: tabular-nums; font-weight: 500;
+  }
+  .gantt-hour::before {
+    content: ''; position: absolute;
+    left: 50%; top: 100%; margin-top: 2px;
+    width: 1px; height: 6px; background: var(--border);
+  }
+
+  .gantt-row { display: flex; border-bottom: 2px solid var(--text2); }
+  .gantt-row:last-child { border-bottom: none; }
+  .gantt-row:nth-child(even) .gantt-tracks { background-color: rgba(0,0,0,.03); }
+  .gantt-day-label {
+    position: sticky; left: 0; z-index: 5;
+    width: 96px; flex-shrink: 0;
+    padding: 14px 10px;
+    background: var(--bg); border-right: 2px solid var(--text2);
+  }
+  .gantt-day-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 15px; color: var(--text); line-height: 1.1; }
+  .gantt-day-date { font-size: 10.5px; color: var(--text3); margin-top: 3px; }
+
+  .gantt-tracks {
+    flex: 1; position: relative; min-height: 80px;
+    padding: 6px 0;
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent,
+      transparent calc(100% / 17 - 1px),
+      rgba(0,0,0,.05) calc(100% / 17 - 1px),
+      rgba(0,0,0,.05) calc(100% / 17)
+    );
+  }
+
+  .gantt-block {
+    position: absolute;
+    min-width: 46px;
+    cursor: zoom-in;
+    transition: box-shadow .15s, z-index 0s;
+  }
+  .gantt-block:hover { z-index: 20; }
+  .gantt-block:hover .card.in-gantt { box-shadow: 0 10px 28px rgba(0,0,0,.18); }
+  .gantt-block.hidden { display: none; }
+
+  .gantt-block .card.in-gantt {
+    margin: 0; height: 100%; padding: 9px 11px;
+    border-radius: 8px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    border-left: 4px solid var(--text2);
+    background: var(--surface);
+  }
+  .gantt-block .card.in-gantt:hover { transform: none; }
+  .gantt-block[data-types*="theatre"] .card.in-gantt { border-left-color: var(--purple); }
+  .gantt-block[data-types*="cirque"]  .card.in-gantt { border-left-color: var(--coral); }
+  .gantt-block[data-types*="danse"]   .card.in-gantt { border-left-color: var(--green); }
+  .gantt-block[data-types*="musique"] .card.in-gantt { border-left-color: var(--amber); }
+  .gantt-block[data-types*="conte"]   .card.in-gantt { border-left-color: #7b1e3a; }
+  .gantt-block[data-types*="rue"]     .card.in-gantt { border-left-color: var(--teal); }
+  .gantt-block[data-types*="free"]    .card.in-gantt { border-left-color: var(--green); }
+
+  .gantt-block .card-top { gap: 5px; flex-shrink: 0; }
+  .gantt-block .card-title { font-size: 12.5px; line-height: 1.25; font-weight: 600; }
+  .gantt-block .card-sessions { padding-top: 0; gap: 3px; }
+  .gantt-block .ses-chip { font-size: 10px; padding: 2px 7px; }
+  .gantt-block .tags { margin-top: 5px; gap: 3px; flex-shrink: 0; }
+  .gantt-block .tag { font-size: 9px; padding: 1px 6px; }
+  .gantt-block .card-meta { font-size: 10.5px; margin-top: 4px; flex-shrink: 0; }
+  .gantt-block .card-desc {
+    font-size: 11px; line-height: 1.4; margin-top: 5px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1; min-height: 0;
+  }
+  .gantt-block .card-links { margin-top: 5px; gap: 4px; flex-shrink: 0; flex-wrap: nowrap; overflow: hidden; }
+  .gantt-block .lnk { font-size: 10px; padding: 2px 7px; white-space: nowrap; }
+
   /* TYPE FILTERS */
   .type-filters { max-width: 760px; margin: 0 auto; padding: 8px 24px 12px; display: flex; gap: 6px; flex-wrap: wrap; }
   .t-btn {
@@ -111,16 +229,18 @@
   .t-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
   /* MAIN */
-  main { max-width: 760px; margin: 0 auto; padding: 24px 24px 96px; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 24px 24px; }
+  .infos-wrap { max-width: 760px; margin: 0 auto; padding: 8px 24px 96px; }
 
   /* DAY GROUP */
-  .day-group { margin-bottom: 32px; }
+  .day-group { margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px dashed var(--text3); }
+  .day-group:last-child { border-bottom: none; padding-bottom: 0; }
   .day-header {
     font-family: 'Playfair Display', serif;
     font-size: 20px; font-weight: 700;
     color: var(--text); margin-bottom: 14px;
     padding-bottom: 10px;
-    border-bottom: 2px solid var(--text);
+    border-bottom: 3px solid var(--text);
     display: flex; align-items: baseline; gap: 12px;
   }
   .day-header .day-num {
@@ -344,10 +464,103 @@
     background: var(--green-light); color: var(--green);
   }
 
+  /* SHOW DETAIL MODAL (zoom-in from gantt) */
+  .zoom-overlay {
+    position: fixed; inset: 0;
+    background: rgba(20,17,15,.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 280;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .22s ease;
+  }
+  .zoom-overlay.open { opacity: 1; pointer-events: auto; }
+
+  .zoom-modal {
+    position: relative;
+    width: 100%; max-width: 540px;
+    max-height: 88vh;
+    border-radius: 14px;
+    background: var(--bg);
+    box-shadow: 0 24px 70px rgba(0,0,0,.35);
+    transform: scale(0.85);
+    opacity: 0;
+    transition: transform .3s cubic-bezier(.18,.89,.32,1.18), opacity .22s ease;
+    will-change: transform, opacity;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .zoom-overlay.open .zoom-modal { transform: scale(1); opacity: 1; }
+
+  .zoom-close {
+    position: absolute; top: 10px; right: 10px;
+    width: 30px; height: 30px;
+    background: var(--surface);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px; line-height: 1;
+    z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s, transform .15s;
+  }
+  .zoom-close:hover { background: var(--surface2); color: var(--text); transform: rotate(90deg); }
+
+  #show-modal-card { overflow-y: auto; }
+  #show-modal-card .card {
+    margin: 0;
+    padding: 26px 22px 22px;
+    border: none;
+    border-radius: 14px;
+    box-shadow: none;
+  }
+  #show-modal-card .card:hover { transform: none; box-shadow: none; }
+  #show-modal-card .card-title { font-size: 19px; line-height: 1.25; font-weight: 600; padding-right: 32px; }
+  #show-modal-card .card-desc { font-size: 14px; line-height: 1.65; }
+  #show-modal-card .card-sessions { gap: 6px; }
+  #show-modal-card .ses-chip { font-size: 12px; padding: 5px 12px; }
+
+  .modal-sessions {
+    display: flex; flex-direction: column; gap: 7px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .modal-sessions-head {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--text3); font-weight: 600; margin-bottom: 2px;
+  }
+  .modal-session-row {
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .modal-session-row .ses-chip { flex-shrink: 0; min-width: 92px; text-align: center; }
+  .modal-session-row .reserve-lnk {
+    font-size: 11px; font-family: 'DM Sans', sans-serif;
+    padding: 5px 12px; border-radius: 14px;
+    text-decoration: none; font-weight: 600;
+    background: var(--accent); color: white;
+    border: 1px solid var(--accent);
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: background .15s, transform .12s;
+  }
+  .modal-session-row .reserve-lnk:hover { background: #a83d20; transform: translateY(-1px); }
+  .modal-session-row .free-tag {
+    font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 14px;
+    background: var(--green-light); color: var(--green);
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
   /* PRINT */
   @media print {
     @page { margin: 14mm; }
-    header, .filters-wrap, .planning-fab, main, .infos { display: none !important; }
+    header, .filters-wrap, .planning-fab, main, .gantt-view, .infos-wrap, .zoom-overlay { display: none !important; }
     .planning-overlay {
       position: static !important;
       background: none !important;
@@ -406,6 +619,10 @@
     <button class="f-btn" onclick="filterDay('ven', this)">Vendredi 22</button>
     <button class="f-btn" onclick="filterDay('sam', this)">Samedi 23</button>
     <button class="f-btn" onclick="filterDay('dim', this)">Dimanche 24</button>
+    <div class="view-toggle" role="tablist" aria-label="Affichage du programme">
+      <button class="v-btn active" onclick="setView('cards', this)" role="tab" aria-selected="true">📋 Cartes</button>
+      <button class="v-btn" onclick="setView('gantt', this)" role="tab" aria-selected="false">📅 Calendrier</button>
+    </div>
   </div>
   <div class="type-filters">
     <button class="t-btn active" onclick="filterType('all', this)">Tous types</button>
@@ -419,7 +636,7 @@
   </div>
 </div>
 
-<main>
+<main id="main-cards">
   <div class="empty" id="empty-msg">Aucun spectacle pour cette sélection.</div>
 
   <!-- VENDREDI -->
@@ -764,7 +981,18 @@
     </div>
   </div>
 
-  <!-- INFOS PRATIQUES -->
+</main>
+
+<!-- GANTT VIEW (toggled) -->
+<section id="gantt-view" class="gantt-view hidden-view" aria-label="Vue calendrier">
+  <div class="gantt-empty" id="gantt-empty">Aucun spectacle pour cette sélection.</div>
+  <div class="gantt-scroll">
+    <div class="gantt-grid" id="gantt-grid"></div>
+  </div>
+</section>
+
+<!-- INFOS PRATIQUES (always visible) -->
+<div class="infos-wrap">
   <div class="infos">
     <h2>Infos pratiques</h2>
     <div class="infos-grid">
@@ -786,8 +1014,7 @@
       </div>
     </div>
   </div>
-
-</main>
+</div>
 
 <!-- PLANNING FAB + OVERLAY -->
 <button class="planning-fab empty" id="planning-fab" onclick="openPlanning()">
@@ -807,6 +1034,14 @@
       <button class="p-btn danger" id="reset-btn" onclick="resetPlanning()">🗑️ Tout effacer</button>
     </div>
     <div id="planning-body"></div>
+  </div>
+</div>
+
+<!-- SHOW DETAIL MODAL (zoom from gantt block) -->
+<div class="zoom-overlay" id="show-modal" onclick="if(event.target===this)closeShowModal()" aria-hidden="true">
+  <div class="zoom-modal" role="dialog" aria-modal="true" aria-labelledby="show-modal-title">
+    <button class="zoom-close" onclick="closeShowModal()" aria-label="Fermer">✕</button>
+    <div id="show-modal-card"></div>
   </div>
 </div>
 
@@ -870,7 +1105,9 @@
   // ---------- STATE ----------
   let currentDay = 'all';
   let currentType = 'all';
+  let currentView = 'cards';
   let selected = new Set();
+  const CARD_TEMPLATES = {}; // showId → master card node (full content, no day filtering)
 
   function loadFromStorage() {
     try {
@@ -907,7 +1144,8 @@
     applyFilters();
   }
   function applyFilters() {
-    const cards = document.querySelectorAll('.card');
+    // Cards view
+    const cards = document.querySelectorAll('#main-cards .card');
     let visible = 0;
     cards.forEach(card => {
       const day = card.dataset.renderDay || '';
@@ -924,16 +1162,218 @@
       grp.style.display = anyVisible ? '' : 'none';
     });
     document.getElementById('empty-msg').style.display = visible === 0 ? 'block' : 'none';
+
+    // Gantt view
+    let gVisible = 0;
+    document.querySelectorAll('.gantt-block').forEach(block => {
+      const day = block.dataset.day || '';
+      const types = block.dataset.types || '';
+      const dayOk = currentDay === 'all' || day === currentDay;
+      const typeOk = currentType === 'all' || types.includes(currentType);
+      const ok = dayOk && typeOk;
+      block.classList.toggle('hidden', !ok);
+      if (ok) gVisible++;
+    });
+    document.querySelectorAll('.gantt-row').forEach(row => {
+      const day = row.dataset.day;
+      const dayOk = currentDay === 'all' || day === currentDay;
+      const anyVisible = dayOk && [...row.querySelectorAll('.gantt-block')].some(b => !b.classList.contains('hidden'));
+      row.style.display = anyVisible ? '' : 'none';
+    });
+    const ge = document.getElementById('gantt-empty');
+    if (ge) ge.style.display = gVisible === 0 ? 'block' : 'none';
+  }
+
+  // ---------- SHOW MODAL (zoom from gantt block) ----------
+  function openShowModal(sessionId) {
+    const sess = SESSION_BY_ID[sessionId];
+    if (!sess) return;
+    const tpl = CARD_TEMPLATES[sess.showId];
+    if (!tpl) return;
+    const card = tpl.cloneNode(true);
+    card.classList.remove('hidden', 'in-gantt');
+
+    // Drop the original chip slot — we render a single session row scoped to the clicked time.
+    const oldSlot = card.querySelector('.card-sessions, .card-time');
+    if (oldSlot) oldSlot.remove();
+
+    // Single session: chip (toggle planning) + reserve link / free tag for this exact slot only.
+    const sessionsBlock = document.createElement('div');
+    sessionsBlock.className = 'modal-sessions';
+    const head = document.createElement('div');
+    head.className = 'modal-sessions-head';
+    head.textContent = 'Séance';
+    sessionsBlock.appendChild(head);
+    const chipHtml = `<button class="ses-chip${selected.has(sess.id) ? ' selected' : ''}" data-sid="${sess.id}" type="button">${chipLabel(sess, true)}</button>`;
+    const actionHtml = sess.reserveUrl
+      ? `<a class="reserve-lnk" href="${sess.reserveUrl}" target="_blank" rel="noopener">🎟 Réserver</a>`
+      : `<span class="free-tag">✨ Entrée libre</span>`;
+    sessionsBlock.insertAdjacentHTML('beforeend', `<div class="modal-session-row">${chipHtml}${actionHtml}</div>`);
+
+    const anchor = card.querySelector('.tags') || card.querySelector('.card-meta') || card.querySelector('.card-top');
+    if (anchor) anchor.after(sessionsBlock);
+    else card.appendChild(sessionsBlock);
+
+    const titleEl = card.querySelector('.card-title');
+    if (titleEl) titleEl.id = 'show-modal-title';
+    const target = document.getElementById('show-modal-card');
+    target.innerHTML = '';
+    target.appendChild(card);
+
+    const overlay = document.getElementById('show-modal');
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeShowModal() {
+    const overlay = document.getElementById('show-modal');
+    if (!overlay.classList.contains('open')) return;
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    if (!document.getElementById('planning-overlay').classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  // ---------- VIEW TOGGLE ----------
+  function setView(v, btn) {
+    currentView = v;
+    document.querySelectorAll('.v-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById('main-cards').classList.toggle('hidden-view', v !== 'cards');
+    document.getElementById('gantt-view').classList.toggle('hidden-view', v !== 'gantt');
+  }
+
+  // ---------- GANTT BUILD ----------
+  // Time range: 9:00 → 02:00 internally so blocks ending after 01:00 (e.g. DJ until 01:15) still fit.
+  // Hour labels are drawn 9h → 01h.
+  const GANTT_START_MIN = 9 * 60;
+  const GANTT_END_MIN = 26 * 60;
+  const GANTT_RANGE = GANTT_END_MIN - GANTT_START_MIN; // 1020
+  const GANTT_LAST_LABEL_HOUR = 25;
+  const BLOCK_HEIGHT = 178;
+  const BLOCK_GAP = 6;
+
+  function fmtHourLabel(h) {
+    const hh = ((h % 24) + 24) % 24;
+    return String(hh).padStart(2, '0') + 'h';
+  }
+
+  function buildGantt() {
+    const grid = document.getElementById('gantt-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    // Hour axis
+    const axisRow = document.createElement('div');
+    axisRow.className = 'gantt-axis-row';
+    const axisSpacer = document.createElement('div');
+    axisSpacer.className = 'gantt-axis-spacer';
+    axisRow.appendChild(axisSpacer);
+    const axis = document.createElement('div');
+    axis.className = 'gantt-axis';
+    for (let h = 9; h <= GANTT_LAST_LABEL_HOUR; h++) {
+      const pos = ((h * 60) - GANTT_START_MIN) / GANTT_RANGE * 100;
+      const el = document.createElement('div');
+      el.className = 'gantt-hour';
+      el.style.left = pos + '%';
+      el.textContent = fmtHourLabel(h);
+      axis.appendChild(el);
+    }
+    axisRow.appendChild(axis);
+    grid.appendChild(axisRow);
+
+    // Index card templates by show-id (any rendered copy works — chips will be replaced)
+    const tplByShow = {};
+    document.querySelectorAll('#main-cards .card[data-show-id]').forEach(c => {
+      if (!tplByShow[c.dataset.showId]) tplByShow[c.dataset.showId] = c;
+    });
+
+    // Build rows
+    ['ven','sam','dim'].forEach(day => {
+      const sessions = SESSIONS
+        .filter(s => s.day === day)
+        .map(s => ({...s, startMin: timeToMin(s.start)}))
+        .sort((a, b) => a.startMin - b.startMin);
+
+      // Greedy sub-row assignment
+      const rowEnds = [];
+      sessions.forEach(s => {
+        const endMin = s.startMin + s.duration;
+        let placed = -1;
+        for (let i = 0; i < rowEnds.length; i++) {
+          if (rowEnds[i] <= s.startMin) { rowEnds[i] = endMin; placed = i; break; }
+        }
+        if (placed === -1) { rowEnds.push(endMin); placed = rowEnds.length - 1; }
+        s.subRow = placed;
+      });
+      const subRowCount = Math.max(rowEnds.length, 1);
+
+      const row = document.createElement('div');
+      row.className = 'gantt-row';
+      row.dataset.day = day;
+
+      const lbl = document.createElement('div');
+      lbl.className = 'gantt-day-label';
+      const dayName = day === 'ven' ? 'Vendredi' : day === 'sam' ? 'Samedi' : 'Dimanche';
+      const dayDate = day === 'ven' ? '22 mai' : day === 'sam' ? '23 mai' : '24 mai';
+      lbl.innerHTML = `<div class="gantt-day-name">${dayName}</div><div class="gantt-day-date">${dayDate}</div>`;
+      row.appendChild(lbl);
+
+      const tracks = document.createElement('div');
+      tracks.className = 'gantt-tracks';
+      tracks.style.height = (subRowCount * (BLOCK_HEIGHT + BLOCK_GAP) + BLOCK_GAP) + 'px';
+
+      sessions.forEach(s => {
+        const tpl = tplByShow[s.showId];
+        if (!tpl) return;
+        const card = tpl.cloneNode(true);
+        card.classList.add('in-gantt');
+        card.classList.remove('hidden');
+        card.removeAttribute('data-render-day');
+        // Replace chip slot with single chip for this session
+        const slot = card.querySelector('.card-sessions, .card-time');
+        if (slot) {
+          slot.classList.add('card-sessions');
+          slot.classList.remove('card-time');
+          slot.innerHTML = `<button class="ses-chip${selected.has(s.id) ? ' selected' : ''}" data-sid="${s.id}" type="button">${s.start.replace(':','h')}</button>`;
+        }
+
+        const block = document.createElement('div');
+        block.className = 'gantt-block';
+        block.dataset.day = s.day;
+        block.dataset.types = tpl.dataset.types || '';
+        block.dataset.sid = s.id;
+        block.title = `${s.show} — ${s.start} (${s.duration} min) · ${s.venue}`;
+
+        const left = (s.startMin - GANTT_START_MIN) / GANTT_RANGE * 100;
+        const width = s.duration / GANTT_RANGE * 100;
+        block.style.left = left + '%';
+        block.style.width = width + '%';
+        block.style.top = (s.subRow * (BLOCK_HEIGHT + BLOCK_GAP) + BLOCK_GAP) + 'px';
+        block.style.height = BLOCK_HEIGHT + 'px';
+
+        block.appendChild(card);
+        tracks.appendChild(block);
+      });
+
+      row.appendChild(tracks);
+      grid.appendChild(row);
+    });
   }
 
   // ---------- DISTRIBUTE CARDS BY DAY ----------
   // For each show, place a card copy in every day-group it has sessions in,
   // sorted by the earliest session of that day.
   function distributeCardsByDay() {
-    const templates = {};
     document.querySelectorAll('.card[data-show-id]').forEach(c => {
       const id = c.dataset.showId;
-      if (!templates[id]) templates[id] = c.cloneNode(true);
+      if (!CARD_TEMPLATES[id]) CARD_TEMPLATES[id] = c.cloneNode(true);
       c.remove();
     });
     ['ven','sam','dim'].forEach(day => {
@@ -946,7 +1386,7 @@
       const grp = document.getElementById('grp-' + day);
       if (!grp) return;
       sorted.forEach(s => {
-        const tpl = templates[s.showId];
+        const tpl = CARD_TEMPLATES[s.showId];
         if (!tpl) return;
         const clone = tpl.cloneNode(true);
         clone.dataset.renderDay = day;
@@ -1167,6 +1607,7 @@
     loadFromURL();
     distributeCardsByDay();
     renderAllChips();
+    buildGantt();
     refreshFab();
 
     // Delegated chip click
@@ -1175,9 +1616,21 @@
       if (chip) { toggleSession(chip.dataset.sid); }
     });
 
-    // ESC closes panel
+    // Click on a gantt block (outside chips/links/modal) opens the show modal
+    document.addEventListener('click', e => {
+      if (currentView !== 'gantt') return;
+      if (e.target.closest('.ses-chip, .lnk, .zoom-modal, .zoom-close')) return;
+      const block = e.target.closest('.gantt-block');
+      if (!block || !block.dataset.sid) return;
+      openShowModal(block.dataset.sid);
+    });
+
+    // ESC closes show modal first, otherwise the planning panel
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closePlanning();
+      if (e.key !== 'Escape') return;
+      const modal = document.getElementById('show-modal');
+      if (modal && modal.classList.contains('open')) { closeShowModal(); return; }
+      closePlanning();
     });
   });
 </script>
