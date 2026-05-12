@@ -101,19 +101,30 @@
 
   /* VIEW TOGGLE (in sticky filters bar) */
   .view-toggle {
-    margin-left: auto; display: inline-flex; gap: 2px;
-    padding: 2px; border: 1px solid var(--border);
-    border-radius: 20px; background: var(--surface2);
+    margin-left: auto; display: inline-flex; gap: 4px;
+    padding: 4px; border: 1.5px solid var(--accent);
+    border-radius: 24px; background: var(--surface);
+    box-shadow: 0 2px 10px rgba(201, 79, 44, .18);
+    position: relative;
   }
   .v-btn {
-    font-size: 12px; font-family: 'DM Sans', sans-serif;
-    padding: 4px 12px; border-radius: 18px;
+    font-size: 13px; font-family: 'DM Sans', sans-serif;
+    padding: 7px 18px; border-radius: 20px;
     border: none; background: transparent; color: var(--text2);
-    cursor: pointer; transition: all .15s; font-weight: 500;
-    display: inline-flex; align-items: center; gap: 4px;
+    cursor: pointer; transition: all .2s ease; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+    letter-spacing: .2px;
   }
-  .v-btn:hover { color: var(--text); }
-  .v-btn.active { background: var(--text); color: white; }
+  .v-btn:hover { color: var(--accent); transform: translateY(-1px); }
+  .v-btn.active {
+    background: var(--accent); color: white;
+    box-shadow: 0 2px 6px rgba(201, 79, 44, .35);
+  }
+  .v-btn.active:hover { color: white; transform: none; }
+  @media (max-width: 600px) {
+    .view-toggle { width: 100%; margin-left: 0; justify-content: center; }
+    .v-btn { flex: 1; justify-content: center; }
+  }
   .hidden-view { display: none !important; }
 
   /* GANTT VIEW */
@@ -329,6 +340,31 @@
   .info-block p { font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.55; font-weight: 300; }
   .info-block a { color: #e8a87c; text-decoration: none; }
   .info-block a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .site-footer {
+    text-align: center;
+    padding: 28px 24px 96px;
+    font-size: 12px;
+    color: var(--text3);
+    font-weight: 300;
+  }
+  .site-footer a {
+    color: var(--text2);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--text3);
+  }
+  .site-footer a:hover { color: var(--text); border-bottom-color: var(--text); }
+  .site-footer .heart { color: var(--coral); }
+  .site-footer .sep { margin: 0 8px; color: var(--text3); }
+  .site-footer .disclaimer {
+    max-width: 620px;
+    margin: 0 auto 14px;
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.55;
+    font-style: italic;
+  }
 
   /* EMPTY STATE */
   .empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 14px; display: none; }
@@ -560,7 +596,7 @@
   /* PRINT */
   @media print {
     @page { margin: 14mm; }
-    header, .filters-wrap, .planning-fab, main, .gantt-view, .infos-wrap, .zoom-overlay { display: none !important; }
+    header, .filters-wrap, .planning-fab, main, .gantt-view, .infos-wrap, .zoom-overlay, .site-footer { display: none !important; }
     .planning-overlay {
       position: static !important;
       background: none !important;
@@ -620,8 +656,8 @@
     <button class="f-btn" onclick="filterDay('sam', this)">Samedi 23</button>
     <button class="f-btn" onclick="filterDay('dim', this)">Dimanche 24</button>
     <div class="view-toggle" role="tablist" aria-label="Affichage du programme">
-      <button class="v-btn active" onclick="setView('cards', this)" role="tab" aria-selected="true">📋 Cartes</button>
-      <button class="v-btn" onclick="setView('gantt', this)" role="tab" aria-selected="false">📅 Calendrier</button>
+      <button class="v-btn" onclick="setView('cards', this)" role="tab" aria-selected="false">📋 Cartes</button>
+      <button class="v-btn active" onclick="setView('gantt', this)" role="tab" aria-selected="true">📅 Calendrier</button>
     </div>
   </div>
   <div class="type-filters">
@@ -636,7 +672,7 @@
   </div>
 </div>
 
-<main id="main-cards">
+<main id="main-cards" class="hidden-view">
   <div class="empty" id="empty-msg">Aucun spectacle pour cette sélection.</div>
 
   <!-- VENDREDI -->
@@ -684,7 +720,7 @@
       <div class="card-desc">Autrice-compositrice-violoncelliste, Hélène Piris dépeint les absurdités du monde avec humour piquant et faussement naïf. Un spectacle-manifeste tendre et déjanté. Prix du public Festival J.Brel 2024.</div>
       <div class="card-links">
         <a class="lnk main" href="http://www.helenepiris.com/" target="_blank">🌐 Site officiel</a>
-        <a class="lnk" href="https://www.festivaloffavignon.com/spectacles/5805-c-est-moi-ou-il-fait-un-peu-chaud-helene-piris" target="_blank">📄 Avignon Off</a>
+        <a class="lnk yt" href="https://www.youtube.com/watch?v=jmiaP3yGf8M" target="_blank">▶ Vidéo</a>
         <a class="lnk yt" href="https://bfan.link/c-est-moi-ou-il-fait-un-peu-chaud-1" target="_blank">🎧 Album</a>
       </div>
     </div>
@@ -742,7 +778,7 @@
       </div>
       <div class="card-desc">Obaké, c'est la traversée de créatures métamorphes dans le monde des humains. Dans un univers où la magie et le sacré côtoient la fiction, on pose un œil nouveau sur nos espaces publics et les êtres qui nous entourent. Départ devant l'accueil du festival de Valbonnais, à 20 minutes à pied du camping.</div>
       <div class="card-links">
-        <a class="lnk main" href="https://www.maisoncourbe.com/" target="_blank">🌐 Collectif Maison Courbe</a>
+        <a class="lnk main" href="https://www.maisoncourbe.fr/creations/obake" target="_blank">🌐 Collectif Maison Courbe</a>
       </div>
     </div>
 
@@ -796,7 +832,7 @@
       <div class="card-links">
         <a class="lnk main" href="http://www.groupemerci.com/objets-nocturnes/trois-contes-et-quelques" target="_blank">🌐 Site compagnie</a>
         <a class="lnk" href="https://lamanufacture.org/programmation/trois-contes-et-quelques/" target="_blank">📄 La Manufacture</a>
-        <a class="lnk" href="https://lestroiscoups.fr/groupe-merci-trois-contes-et-quelques-musee-angladon-manufacture-festival-off-avignon-2024/" target="_blank">📝 Critique</a>
+        <a class="lnk" href="https://lestroiscoups.fr/trois-contes-et-quelques-groupe-merci-musee-angladon-manufacture-festival-off-avignon-2024/" target="_blank">📝 Critique</a>
       </div>
     </div>
 
@@ -829,7 +865,7 @@
       </div>
       <div class="card-desc">Brigitte, artiste lunatique, et Bertrand, son technicien, son tout. Rencontre intime et drolatique de deux êtres qui s'aiment, se ratent et recommencent. Acrobaties, complicité, émotions.</div>
       <div class="card-links">
-        <a class="lnk main" href="https://www.compagnie3secondes.com/" target="_blank">🌐 Compagnie 3 secondes</a>
+        <a class="lnk main" href="https://cie3secondes.com/evenements/madame-6/" target="_blank">🌐 Compagnie 3 secondes</a>
       </div>
     </div>
 
@@ -846,7 +882,6 @@
       <div class="card-desc">Six accordéons dans la rue pour ceux qui regardent, écoutent ou dansent. De Led Zeppelin à Marc Perrone en passant par Madness et Bourvil — Ça va valser enflamme le bitume. Joué près de 200 fois en 5 ans !</div>
       <div class="card-links">
         <a class="lnk main" href="https://lesrustinesdelange.fr/ca-va-valser/" target="_blank">🌐 Site compagnie</a>
-        <a class="lnk" href="https://www.picnicproduction.com/lesrustinesdelange-cavavalser" target="_blank">📄 Fiche</a>
       </div>
     </div>
 
@@ -879,7 +914,7 @@
       </div>
       <div class="card-desc">Les Petits Pas dans les Grands : Clara Bard et NORDC invitent à découvrir 3 compagnies de danse. Exploration chorégraphique en espace extérieur.</div>
       <div class="card-links">
-        <a class="lnk main" href="https://nordc.com/" target="_blank">🌐 NORDC</a>
+        <a class="lnk main" href="https://www.petitspasdanslesgrands.fr/" target="_blank">🌐 Les Petits Pas dans les Grands</a>
       </div>
     </div>
 
@@ -984,7 +1019,7 @@
 </main>
 
 <!-- GANTT VIEW (toggled) -->
-<section id="gantt-view" class="gantt-view hidden-view" aria-label="Vue calendrier">
+<section id="gantt-view" class="gantt-view" aria-label="Vue calendrier">
   <div class="gantt-empty" id="gantt-empty">Aucun spectacle pour cette sélection.</div>
   <div class="gantt-scroll">
     <div class="gantt-grid" id="gantt-grid"></div>
@@ -1015,6 +1050,17 @@
     </div>
   </div>
 </div>
+
+<footer class="site-footer">
+  <p class="disclaimer">
+    Ce site est un projet indépendant et n'est pas affilié à l'association Les Montagn'arts.
+    Les informations présentées ici peuvent contenir des erreurs et n'engagent en rien la responsabilité des organisateurs.
+    Pour la programmation officielle et la billetterie, rendez-vous sur <a href="https://www.lesmontagnarts.org" target="_blank" rel="noopener">www.lesmontagnarts.org</a>.
+  </p>
+  Fait avec <span class="heart">♥</span> par <a href="https://yohannvalentin.com" target="_blank" rel="noopener">Yohann Valentin</a>
+  <span class="sep">·</span>
+  <a href="https://github.com/yvalentin" target="_blank" rel="noopener">GitHub</a>
+</footer>
 
 <!-- PLANNING FAB + OVERLAY -->
 <button class="planning-fab empty" id="planning-fab" onclick="openPlanning()">
@@ -1105,7 +1151,7 @@
   // ---------- STATE ----------
   let currentDay = 'all';
   let currentType = 'all';
-  let currentView = 'cards';
+  let currentView = 'gantt';
   let selected = new Set();
   const CARD_TEMPLATES = {}; // showId → master card node (full content, no day filtering)
 

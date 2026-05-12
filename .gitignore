@@ -1,0 +1,21 @@
+# IDE / éditeurs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outils
+.playwright-mcp/
+.claude/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Serveur local
+.cache/
